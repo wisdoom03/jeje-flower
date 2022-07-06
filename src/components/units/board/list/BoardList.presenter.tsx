@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 export default function BoardsListUI(props: IBoardsListUIProps) {
   const router = useRouter();
   return (
-    <L.BoardListWrapper>
+    <L.BoardListWrap>
       <L.Row>
         <L.HeaderNumber>NO</L.HeaderNumber>
         <L.HeaderWriter>작성자</L.HeaderWriter>
@@ -37,6 +37,6 @@ export default function BoardsListUI(props: IBoardsListUIProps) {
           <L.BoardDate>{getMyDate(el.createdAt)}</L.BoardDate>
         </L.Row>
       ))}
-    </L.BoardListWrapper>
+    </L.BoardListWrap>
   );
 }

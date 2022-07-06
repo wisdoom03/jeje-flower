@@ -6,7 +6,8 @@ type IPage =
   | "/"
   | "/member/login"
   | "/member/join"
-  | "/mypage";
+  | "/mypage"
+  | "/home";
 
 export default function UseMoveToPage() {
   const router = useRouter();

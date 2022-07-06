@@ -1,17 +1,42 @@
 import styled from "@emotion/styled";
-import { FontFamily } from "../../../../commons/styles/FontStyles";
+import { Color } from "../../../../commons/styles/ColorStyles";
+import { FontFamily, FontSize } from "../../../../commons/styles/FontStyles";
 
 export const Wrapper = styled.div`
   display: flex;
-  max-width: 1024px;
-  width: 100%;
   flex-direction: column;
   width: 100%;
-  /* margin-top: 50px; */
-  margin-bottom: 50px;
+  padding: 50px 0;
+  > div:nth-of-type(1) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input {
+      width: 250px;
+      height: 40px;
+      border: 1px solid ${Color.GRAY_2};
+      border-radius: 10px;
+      line-height: 40px;
+      padding: 0px 15px;
+      :focus {
+        border: 1px solid ${Color.GREEN_POINT};
+      }
+      ::placeholder {
+        color: ${Color.GRAY_2};
+      }
+    }
+  }
+  > div:nth-of-type(3) {
+    margin: 30px 0;
+  }
 `;
 
-export const BoardListWrapper = styled.div`
+export const Title = styled.div`
+  font-size: ${FontSize.LARGE_T};
+  font-family: Georgia, "Times New Roman", Times, serif;
+`;
+
+export const BoardListWrap = styled.div`
   width: 100%;
   border-top: 3px solid #dfdfdf;
   display: flex;
@@ -31,7 +56,6 @@ export const Row = styled.div`
 
 export const HeaderNumber = styled.div`
   width: 10%;
-  /* font-weight: 700; */
 `;
 export const HeaderWriter = styled.div`
   width: 15%;
@@ -64,45 +88,9 @@ export const BoardDate = styled.div`
   width: 20%;
 `;
 
-export const ButtonWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: end;
-`;
-
-export const RegisterButton = styled.div`
-  /* width: 100px; */
-  /* height: 40px; */
-  display: inline-block;
-  width: auto;
-  padding: 14px 60px;
-  background-color: #254431;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-  border-radius: 4px;
-  margin-top: 20px;
-  cursor: pointer;
-`;
-
-export const Pagination = styled.div``;
-
 interface IProps {
   isMatched: boolean;
 }
 export const Word = styled.span`
-  color: ${(props: IProps) => (props.isMatched ? "red" : "black")};
+  color: ${(props: IProps) => (props.isMatched ? `${Color.ORANGE_POINT}` : "")};
 `;
-
-export const Title = styled.div`
-  font-size: 35px;
-  font-weight: 500;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: #000000;
-  text-align: left;
-
-  margin-top: 100px;
-`;
-export const BoardSearchWrapper = styled.div``;
-export const SearchInput = styled.input``;

@@ -1,24 +1,16 @@
 import styled from "@emotion/styled";
+import { Color } from "../../../../commons/styles/ColorStyles";
 
 const Wrapper = styled.div`
   width: 100%;
-  /* height: 100%; */
-  background-color: black;
-  color: #c8c7c3;
-  padding: 40px 0px 60px 120px;
+  height: 200px;
+  background-color: ${Color.BEIGE_POINT};
+  padding: 50px;
 `;
 
-// const LinkSection = styled.div`
-//   display: flex;
-//   flex-direction: row;
-// `;
-
-// const LinkButton = styled.div`
-//   width: 200px;
-//   margin-bottom: 50px;
-//   background-color: red;
-// `;
-const Footer = styled.div``;
+const Footer = styled.div`
+  color: ${Color.WHITE_1};
+`;
 
 export default function LayoutFooter() {
   return (

@@ -1,6 +1,5 @@
 import BoardsList from "../../src/components/units/board/list/BoardList.container";
 
-const BoardListPage = () => {
+export default function BoardListPage() {
   return <BoardsList />;
-};
-export default BoardListPage;
+}

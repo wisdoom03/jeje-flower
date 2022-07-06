@@ -1,53 +1,12 @@
 import styled from "@emotion/styled";
 import UseMoveToPage from "../../hooks/useMoveToPage";
 import { GlobalContext } from "../../../../../pages/_app";
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { Modal } from "antd";
-
-const Wrap = styled.header`
-  height: 80px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: sticky;
-  box-shadow: 0 4px 4px rgb(0 0 0 / 4%);
-  nav {
-    max-width: 1024px;
-    width: 100%;
-    display: flex;
-  }
-`;
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  /* width: 85vw; */
-  font-size: 13px;
-`;
-
-const HeaderButton = styled.div`
-  width: 50px;
-  margin: 8px;
-  /* background-color: blue; */
-  text-align: center;
-  :hover {
-    cursor: pointer;
-  }
-`;
-const UserInfo = styled.div`
-  width: 150px;
-`;
-
-const Logout = styled.div`
-  width: 100px;
-`;
-
-const MyPage = styled.div`
-  width: 100px;
-`;
+import { FontFamily, FontSize } from "../../../../commons/styles/FontStyles";
+import { breakPoints } from "../../../../commons/styles/Media";
+import Dropdown01 from "../../dropdown/dropdown01/Dropdonw01";
 
 const LOGOUT_USER = gql`
   mutation logoutUser {
@@ -55,35 +14,9 @@ const LOGOUT_USER = gql`
   }
 `;
 
-const Home = styled.div`
-  /* background-color: black; */
-  & img {
-    width: 200px;
-    height: auto;
-  }
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const Product = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 20px;
-  margin-left: 4%;
-  /* background-color: chocolate; */
-  @media screen and (max-width: 700px) {
-    display: none;
-  }
-  :hover {
-    cursor: pointer;
-  }
-`;
-
 export default function Header() {
   const { moveToPage } = UseMoveToPage();
   const { userInfo } = useContext(GlobalContext);
-  // console.log(userInfo);
   const [logoutUser] = useMutation(LOGOUT_USER);
 
   const onClickLogout = () => {
@@ -92,42 +25,111 @@ export default function Header() {
       localStorage.setItem("userInfo", JSON.stringify(""));
       window.location.replace("/home");
     } catch (error) {
-      Modal.error({ content: error.message });
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
     Modal.info({ content: "로그아웃 되었습니다" });
   };
 
+  const LIST = [
+    {
+      title: "사진 올리기",
+      content: "우리집의 공간과 나의 일상을 기록해보세요",
+      link: "/boards/new",
+    },
+    {
+      title: "상품 등록하기",
+      content: "집에 관한 이야기를 글로 작성해보세요",
+      link: "/items/new",
+    },
+    {
+      title: "상품 리뷰 쓰기",
+      content: "상품 리뷰를 작성하고 포인트도 받아보세요",
+      link: "/mypage",
+    },
+  ];
+
   return (
     <Wrap>
-      <nav>
-        <Home onClick={moveToPage("/")}>
-          <img src="/img/layout/Logo.png"></img>
-        </Home>
-        <Product onClick={moveToPage("/items")}>모든 상품</Product>
-        <Product>매장 찾기</Product>
-        <Product>브랜드 소개</Product>
-        <Product onClick={moveToPage("/boards")}>고객센터</Product>
-      </nav>
-      <HeaderWrapper>
-        {userInfo && (
-          <>
-            <UserInfo>{userInfo.name}님 안녕하세요</UserInfo>
-            <Logout onClick={onClickLogout}>로그아웃</Logout>
-            <MyPage onClick={moveToPage("/mypage")}>마이페이지</MyPage>
-          </>
-        )}
-        {!userInfo && (
-          <Fragment>
-            <HeaderButton onClick={moveToPage("/member/join")}>
-              회원가입
-            </HeaderButton>
-            <HeaderButton onClick={moveToPage("/member/login")}>
-              로그인
-            </HeaderButton>
-          </Fragment>
-        )}
-        <HeaderButton>고객센터</HeaderButton>
-      </HeaderWrapper>
+      <div>
+        <nav>
+          <Home onClick={moveToPage("/home")}>
+            <img src="/img/layout/Logo.png"></img>
+          </Home>
+          <Navi onClick={moveToPage("/items")}>전체 상품</Navi>
+          <Navi>매장 찾기</Navi>
+          <Navi>브랜드 소개</Navi>
+          <Navi onClick={moveToPage("/boards")}>고객센터</Navi>
+        </nav>
+        <User>
+          {userInfo && (
+            <>
+              <span>{userInfo.name}님 안녕하세요</span>
+              <span onClick={onClickLogout}>로그아웃</span>
+              <span onClick={moveToPage("/mypage")}>마이페이지</span>
+              <Dropdown01 LIST={LIST} />
+            </>
+          )}
+          {!userInfo && (
+            <>
+              <span onClick={moveToPage("/member/join")}>회원가입</span>
+              <span onClick={moveToPage("/member/login")}>로그인</span>
+            </>
+          )}
+        </User>
+      </div>
     </Wrap>
   );
 }
+
+const Wrap = styled.header`
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 4%);
+  background-color: white;
+  padding: 0px 50px;
+  > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  nav {
+    display: flex;
+    grid-gap: 30px;
+  }
+`;
+
+const Home = styled.div`
+  & img {
+    width: 200px;
+    height: auto;
+  }
+  cursor: pointer;
+`;
+
+const Navi = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: ${FontSize.MEDIUM_C};
+  font-family: ${FontFamily.SEMIBOLD};
+  cursor: pointer;
+  @media ${breakPoints.tablet} {
+    display: none;
+  }
+`;
+
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  font-family: ${FontFamily.MEDIUM};
+  grid-gap: 10px;
+  span {
+    cursor: pointer;
+  }
+`;

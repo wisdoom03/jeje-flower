@@ -1,0 +1,16 @@
+export const Color = {
+  GREEN_MAIN: "#055124",
+  GREEN_POINT: "#14b36b",
+  GREEN_SUB: "#c1e8d1",
+  GREEN_SUB2: "#e5f6ec",
+  ORANGE_POINT: "#ffbf44",
+  ORANGE_SUB: "#fff4df",
+  BEIGE_POINT: "#cd8c3e",
+  BEIGE_SUB: "#f3f1e5",
+  BLACK_1: "#333",
+  GRAY_1: "#838383",
+  GRAY_2: "#bbb",
+  GRAY_3: "#e0e0e0",
+  GRAY_4: "#f2f2f2",
+  WHITE_1: "#fff",
+};

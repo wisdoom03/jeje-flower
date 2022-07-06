@@ -1,4 +1,6 @@
 import { css } from "@emotion/react";
+import { Color } from "./ColorStyles";
+// import { breakPoints } from "./Media";
 
 export const globalStyles = css`
   @font-face {
@@ -28,6 +30,7 @@ export const globalStyles = css`
     padding: 0;
     font-family: "Spoqa_R";
     word-break: break-all;
+    color: ${Color.BLACK_1};
   }
   a {
     color: inherit;
@@ -37,6 +40,7 @@ export const globalStyles = css`
   li,
   ul {
     list-style: none;
+    margin: 0;
   }
   textarea {
     resize: none;
@@ -51,7 +55,9 @@ export const globalStyles = css`
     background: none;
   }
   button {
-    background: none;
     cursor: pointer;
+  }
+  p {
+    margin: 0;
   }
 `;

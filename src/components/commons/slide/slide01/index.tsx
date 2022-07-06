@@ -1,10 +1,25 @@
-import * as B from "../banner/banner.styles";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-export default function BannerPage() {
+import styled from "@emotion/styled";
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 1920px;
+  height: 450px;
+`;
+
+const BannerImage = styled.div`
+  width: 100%;
+  height: 450px;
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+export default function Slide01() {
   const settings = {
     dots: false,
     infinite: true,
@@ -17,29 +32,27 @@ export default function BannerPage() {
     arrows: false,
   };
   return (
-    <B.Wrapper>
-      {/* <B.BannerWrapper> */}
+    <Wrapper>
       <Slider {...settings}>
-        <B.BannerImage>
+        <BannerImage>
           <img src="/img/layout/banner/01.jpeg"></img>
-        </B.BannerImage>
-        <B.BannerImage>
+        </BannerImage>
+        <BannerImage>
           <img src="/img/layout/banner/02.jpeg"></img>
-        </B.BannerImage>
-        <B.BannerImage>
+        </BannerImage>
+        <BannerImage>
           <img src="/img/layout/banner/03.jpeg"></img>
-        </B.BannerImage>
-        <B.BannerImage>
+        </BannerImage>
+        <BannerImage>
           <img src="/img/layout/banner/04.jpeg"></img>
-        </B.BannerImage>
-        <B.BannerImage>
+        </BannerImage>
+        <BannerImage>
           <img src="/img/layout/banner/05.jpeg"></img>
-        </B.BannerImage>
-        <B.BannerImage>
+        </BannerImage>
+        <BannerImage>
           <img src="/img/layout/banner/06.jpeg"></img>
-        </B.BannerImage>
+        </BannerImage>
       </Slider>
-      {/* </B.BannerWrapper> */}
-    </B.Wrapper>
+    </Wrapper>
   );
 }
