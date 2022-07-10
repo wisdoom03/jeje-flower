@@ -1,128 +1,120 @@
+import { DislikeOutlined, LikeOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
+import { Color } from "../../../../commons/styles/ColorStyles";
+import { FontFamily, FontSize } from "../../../../commons/styles/FontStyles";
+
+export const Wrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  main {
+    /* display: flex;
+    flex-direction: row; */
+  }
+`;
+
+export const Image = styled.div`
+  width: 100%;
+  height: 400px;
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
 
 export const BoardUI = styled.div`
-  max-width: 1024px;
-
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 100px;
+  max-width: 768px;
+  padding: 40px 0;
+  margin: 0 auto;
 `;
 
-export const BoardWrapper = styled.div`
-  width: 100%;
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
+export const SideBar = styled.div`
+  position: absolute;
+  top: 400px;
+  bottom: 0;
+  right: 0;
+  width: calc(50% - 384px);
+  .sidebar {
+    position: sticky;
+    top: 130px;
+    transition: top 0.1s ease 0s;
+    width: 55px;
+    margin: 0 auto;
+    .buttons {
+      padding: 70px 0;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      grid-gap: 15px;
+    }
+  }
 `;
 
-export const BoardContents = styled.div`
-  width: 800px;
-  border: 1px solid black;
-  margin-top: 0px;
-  padding-top: 60px;
-  padding-bottom: 100px;
-  padding-left: 100px;
-  padding-right: 100px;
-  display: flex;
-  flex-direction: column;
-  border: none;
-  box-shadow: 0px 0px 10px gray;
+export const BoardHead = styled.header`
+  > p {
+    font-family: ${FontFamily.LIGHT};
+    font-size: ${FontSize.MEDIUM_C};
+  }
+  h1 {
+    font-family: ${FontFamily.BOLD};
+    font-size: 2rem;
+  }
 `;
-
-export const TopWrapper = styled.div`
-  width: 100%;
-  padding-bottom: 20px;
-  /* background-color: #F2F2F2; */
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid #bdbdbd;
-`;
-
-export const ProfilePicture = styled.div`
-  width: 50px;
-  margin-right: 16px;
-`;
-
 export const Profile = styled.div`
-  width: 100%;
-  margin-right: 220px;
-`;
-
-export const Writer = styled.div`
-  font-size: 24px;
-  font-weight: 500;
-  text-align: left;
-`;
-
-export const UpLoadDate = styled.div`
-  width: 100%;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  text-align: left;
-  color: #828282;
-`;
-
-export const Info = styled.div`
-  width: 64px;
   display: flex;
-  flex-direction: row;
-`;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  div.user {
+    display: flex;
+    align-items: center;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+    p:nth-of-type(1) {
+      font-size: ${FontSize.MEDIUM_C};
+      color: ${Color.BLACK_1};
+      margin-left: 5px;
+      margin-right: 15px;
+    }
+  }
+  div.userButton {
+    button {
+      width: 30px;
+    }
 
-export const Uri = styled.div`
-  width: 32px;
-  height: 32px;
-`;
-
-export const Map = styled.div`
-  width: 32px;
-  height: 32px;
-`;
-
-export const MiddleWrapper = styled.div`
-  width: 100%;
-  padding-top: 80px;
-`;
-
-export const Title = styled.div`
-  width: 100%;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 53px;
-  text-align: left;
-  resize: none;
-`;
-
-export const PictureWrapper = styled.div`
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const Picture = styled.img`
-  width: 100%;
-  height: auto;
-  padding-bottom: 10px;
+    button:nth-of-type(1) {
+      margin-right: 10px;
+    }
+  }
 `;
 
 export const Contents = styled.div`
-  width: 100%;
-  margin-top: 40px;
-  background-color: #f2f2f2;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  text-align: left;
-  white-space: pre-wrap;
-  resize: none;
-  word-wrap: break-word;
-  /* white-space는 코드리뷰때 배운거 */
+  padding: 20px 0px;
+  margin: 10px 0px;
+  border-radius: 4px;
+  line-height: 30px;
+  > p {
+    font-size: ${FontSize.MEDIUM_C};
+  }
+`;
+
+export const ImageWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  > img {
+    width: auto;
+    max-height: calc(100vh - 80px);
+    object-fit: cover;
+  }
 `;
 
 export const Video = styled.div`
-  margin-top: 50px;
   display: flex;
   justify-content: center;
 `;
@@ -131,48 +123,27 @@ export const Count = styled.div`
   margin-top: 50px;
   width: 100%;
   display: flex;
-  flex-direction: row;
   justify-content: center;
+  grid-gap: 15px;
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
-export const Like = styled.div`
-  width: 40px;
-  height: 51px;
-  background-color: yellow;
+export const Like = styled(LikeOutlined)`
+  font-size: 20px;
+  line-height: 30px;
+  svg {
+    fill: ${Color.ORANGE_POINT};
+  }
 `;
 
-export const Dislike = styled.div`
-  width: 40px;
-  height: 51px;
-  background-color: yellowgreen;
-`;
-
-export const BoardButton = styled.div`
-  width: 100%;
-  height: 220px;
-  border: 1px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-bottom: 1px solid #bdbdbd;
-`;
-
-export const ButtonWrapper = styled.div`
-  width: 600px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const PageButton = styled.button`
-  width: 180px;
-  height: 45px;
-  background-color: white;
-  border: 1px solid #bdbdbd;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  text-align: center;
-  cursor: pointer;
+export const Dislike = styled(DislikeOutlined)`
+  font-size: 20px;
+  line-height: 30px;
+  svg {
+    fill: ${Color.GRAY_2};
+  }
 `;

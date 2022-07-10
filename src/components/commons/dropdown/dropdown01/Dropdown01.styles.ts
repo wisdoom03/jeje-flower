@@ -11,11 +11,12 @@ export const Dropdown = styled.span`
     border-radius: 4px;
     background-color: ${Color.ORANGE_POINT};
     color: ${Color.WHITE_1};
+    transition: background-color 0.2s ease 0s;
     :hover {
       background-color: ${Color.BEIGE_POINT};
     }
   }
-  ul {
+  dl {
     position: absolute;
     top: 50px;
     right: 0;
@@ -26,26 +27,22 @@ export const Dropdown = styled.span`
     box-shadow: rgb(63 71 77 / 20%) 0px 4px 10px 0px;
     padding: 8px;
 
-    li {
-      /* height: 30px; */
+    > div {
       display: flex;
       flex-direction: column;
-      padding: 15px;
+      padding: 12px;
       border-radius: 2px;
       transition: background-color 0.2s ease 0s;
-      /* word-break: keep-all; */
       white-space: nowrap;
-      /* line-height: 30px; */
-      outline: none;
       cursor: pointer;
       :hover {
         background-color: ${Color.GRAY_4};
       }
-      p:nth-of-type(1) {
+      dt {
         font-family: ${FontFamily.MEDIUM};
         font-size: ${FontSize.SMALL};
       }
-      p:nth-of-type(2) {
+      dd {
         font-family: ${FontFamily.LIGHT};
         font-size: ${FontSize.SMALL};
       }

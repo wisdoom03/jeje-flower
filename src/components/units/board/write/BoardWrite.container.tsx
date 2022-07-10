@@ -119,6 +119,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
         updateBoardInput.boardAddress.addressDetail = addressDetail;
     }
     if (isChangedFiles) updateBoardInput.images = fileUrls;
+
     console.log(updateBoardInput);
     try {
       updateBoard({

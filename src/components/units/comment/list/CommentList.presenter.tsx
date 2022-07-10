@@ -22,20 +22,20 @@ export default function CommentListUI(props: ICommentListUIProps) {
         </Modal>
       )}
       <D.Comments>
-        <InfiniteScroll
+        {/* <InfiniteScroll
           pageStart={0}
           loadMore={props.onLoadMore}
           hasMore={true}
           useWindow={false}
-        >
-          {props.data?.fetchBoardComments.map((el) => (
-            <CommentListUIItem
-              key={el._id}
-              el={el}
-              onClickModalForDelete={props.onClickModalForDelete}
-            />
-          ))}
-        </InfiniteScroll>
+        > */}
+        {props.data?.fetchBoardComments.map((el) => (
+          <CommentListUIItem
+            key={el._id}
+            el={el}
+            onClickModalForDelete={props.onClickModalForDelete}
+          />
+        ))}
+        {/* </InfiniteScroll> */}
       </D.Comments>
     </D.CommentsUI>
   );

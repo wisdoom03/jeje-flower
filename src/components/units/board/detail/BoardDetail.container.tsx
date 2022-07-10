@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { useQuery, useMutation } from "@apollo/client";
-import BoardDetailPresenter from "./BoardDetail.presenter";
+import BoardDetailUI from "./BoardDetail.presenter";
 import {
   FETCH_BOARD,
   DELETE_BOARD,
@@ -41,8 +41,6 @@ export default function BoardDetail() {
     IMutationDislikeBoardArgs
   >(DISLIKE_BOARD);
 
-  // console.log(data?.fetchBoard.images);
-
   const onClickDelete = async () => {
     await deleteBoard({
       variables: { boardId: String(router.query.boardId) },
@@ -51,8 +49,8 @@ export default function BoardDetail() {
     Modal.info({ content: "게시글이 삭제되었습니다" });
   };
 
-  function onClickLike() {
-    likeBoard({
+  const onClickLike = async () => {
+    await likeBoard({
       variables: { boardId: String(router.query.boardId) },
       refetchQueries: [
         {
@@ -61,10 +59,10 @@ export default function BoardDetail() {
         },
       ],
     });
-  }
+  };
 
-  function onClickDislike() {
-    dislikeBoard({
+  const onClickDislike = async () => {
+    await dislikeBoard({
       variables: { boardId: String(router.query.boardId) },
       refetchQueries: [
         {
@@ -73,25 +71,14 @@ export default function BoardDetail() {
         },
       ],
     });
-  }
+  };
 
   return (
-    <BoardDetailPresenter
-      // writer={data?.fetchBoard.writer}
-      // createdAt={data?.fetchBoard.createdAt}
-      // title={data?.fetchBoard.title}
-      // contents={data?.fetchBoard.contents}
-      // likeCount={data?.fetchBoard.likeCount}
-      // dislikeCount={data?.fetchBoard.dislikeCount}
-      // youtubeUrl={data?.fetchBoard.youtubeUrl}
+    <BoardDetailUI
       images={data?.fetchBoard.images}
       data={data}
-      // zipcode={data?.fetchBoard.boardAddress?.zipcode}
-      // address={data?.fetchBoard.boardAddress?.address}
       onClickLike={onClickLike}
       onClickDislike={onClickDislike}
-      // onClickList={onClickList}
-      // onClickEdit={onClickEdit}
       onClickDelete={onClickDelete}
     />
   );

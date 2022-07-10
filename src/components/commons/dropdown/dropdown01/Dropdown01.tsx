@@ -29,14 +29,14 @@ export default function Dropdown01(props: IDropdown01Props) {
         <button onClick={onClickCategory}>글쓰기 🖋</button>
         {isActive && (
           <>
-            <ul>
+            <dl>
               {props.LIST.map((el) => (
-                <li key={el.title} onClick={onClickList(el.link)}>
-                  <p>{el.title}</p>
-                  <p>{el.content}</p>
-                </li>
+                <div key={el.title} onClick={onClickList(el.link)}>
+                  <dt>{el.title}</dt>
+                  <dd>{el.content}</dd>
+                </div>
               ))}
-            </ul>
+            </dl>
           </>
         )}
       </S.Dropdown>

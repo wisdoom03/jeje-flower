@@ -6,7 +6,7 @@ import { gql, useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { FontFamily, FontSize } from "../../../../commons/styles/FontStyles";
 import { breakPoints } from "../../../../commons/styles/Media";
-import Dropdown01 from "../../dropdown/dropdown01/Dropdonw01";
+import Dropdown01 from "../../dropdown/dropdown01/Dropdown01";
 
 const LOGOUT_USER = gql`
   mutation logoutUser {
@@ -55,10 +55,10 @@ export default function Header() {
           <Home onClick={moveToPage("/home")}>
             <img src="/img/layout/Logo.png"></img>
           </Home>
-          <Navi onClick={moveToPage("/items")}>전체 상품</Navi>
-          <Navi>매장 찾기</Navi>
-          <Navi>브랜드 소개</Navi>
-          <Navi onClick={moveToPage("/boards")}>고객센터</Navi>
+          <Navigation onClick={moveToPage("/items")}>전체 상품</Navigation>
+          <Navigation>매장 찾기</Navigation>
+          <Navigation>브랜드 소개</Navigation>
+          <Navigation onClick={moveToPage("/boards")}>고객센터</Navigation>
         </nav>
         <User>
           {userInfo && (
@@ -113,7 +113,7 @@ const Home = styled.div`
   cursor: pointer;
 `;
 
-const Navi = styled.div`
+const Navigation = styled.div`
   display: flex;
   align-items: center;
   font-size: ${FontSize.MEDIUM_C};

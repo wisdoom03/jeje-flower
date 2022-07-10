@@ -5,9 +5,12 @@ import { IBoardWriteUIProps } from "./BoardWrite.types";
 import Uploads01 from "../../../commons/uploads/01/Uploads01.container";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
   const router = useRouter();
+
+  const fetchBoard = props.data?.fetchBoard;
 
   return (
     <S.Page>
@@ -21,7 +24,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               type="text"
               onChange={props.onChangeInputs}
               placeholder="이름을 적어주세요"
-              defaultValue={props.data ? props.data.fetchBoard.writer : ""}
+              defaultValue={fetchBoard ? String(fetchBoard.writer) : ""}
               readOnly={props.isEdit ? true : false}
             ></S.Writer>
           </S.MainWrapper>
@@ -42,7 +45,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             type="text"
             onChange={props.onChangeInputs}
             placeholder="제목을 작성해주세요."
-            defaultValue={props.data ? props.data.fetchBoard.title : ""}
+            defaultValue={fetchBoard ? fetchBoard.title : ""}
           ></S.Title>
         </S.MainWrapper>
         <S.MainWrapper>
@@ -52,7 +55,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             type="text"
             onChange={props.onChangeInputs}
             placeholder="내용을 작성해주세요."
-            defaultValue={props.data?.fetchBoard.contents}
+            defaultValue={fetchBoard ? fetchBoard.contents : ""}
           ></S.Contents>
         </S.MainWrapper>
         <S.MainWrapper>
@@ -62,7 +65,8 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               placeholder="07520"
               readOnly
               value={
-                props.zipcode || props.data?.fetchBoard.boardAddress?.zipcode
+                props.zipcode ||
+                String(props.data?.fetchBoard.boardAddress?.zipcode)
               }
             ></S.AddressNumber>
             <S.AddressSearch type="default" onClick={props.toggleAddressModal}>
@@ -81,17 +85,17 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           </S.AddressWrapper>
           <S.MainAddress
             readOnly
-            value={
+            value={String(
               props.address || props.data?.fetchBoard.boardAddress?.address
-            }
+            )}
           ></S.MainAddress>
           <S.DetailAddress
             type="text"
             onChange={props.onChangeAddressDetail}
-            value={
+            value={String(
               props.addressDetail ||
-              props.data?.fetchBoard.boardAddress?.addressDetail
-            }
+                props.data?.fetchBoard.boardAddress?.addressDetail
+            )}
           ></S.DetailAddress>
         </S.MainWrapper>
         <S.MainWrapper>
@@ -100,7 +104,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             id="youtubeUrl"
             onChange={props.onChangeInputs}
             placeholder="링크를 복사해주세요."
-            defaultValue={props.isEdit ? props.data?.fetchBoard.youtubeUrl : ""}
+            defaultValue={fetchBoard ? String(fetchBoard.youtubeUrl) : ""}
           ></S.Link>
         </S.MainWrapper>
         <S.ImageWrapper>

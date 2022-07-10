@@ -16,18 +16,12 @@ export default function Uploads01(props: IUploads01Props) {
 
   const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = checkValidationImage(event.target.files?.[0]);
-    // const bbb = event.target.files?.[0];
-    // console.log("aaa : ", bbb);
-    // console.log("file : ", file);
-    // if (!file) return;
 
     try {
       const result = await uploadFile({ variables: { file } });
-      // const result = await uploadFile({ variables: { file } });
-      console.log(result);
       props.onChangeFileUrls(result?.data?.uploadFile?.url, props.index);
     } catch (error) {
-      Modal.error({ content: error.message });
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
 

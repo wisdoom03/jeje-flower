@@ -8,7 +8,8 @@ export default function MyPageHeader(props) {
         <M.BoardSummary>
           <M.SummaryItem>
             <M.SummaryItemLabel>
-              {props.pointData?.fetchPointTransactions[0].balance}원
+              {props.pointData ? props.pointData.fetchPointTransactions[0] : 0}
+              원
             </M.SummaryItemLabel>
             <M.SummaryItemBody>적립금</M.SummaryItemBody>
           </M.SummaryItem>

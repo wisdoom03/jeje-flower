@@ -1,21 +1,31 @@
 import * as E from "./CommentWrite.styles";
 
 import { ChangeEvent } from "react";
+import Input01 from "../../../commons/text/input/input01";
+import { Rate } from "antd";
+import { HeartOutlined } from "@ant-design/icons";
 
 interface CommentWriteUI {
-  onChangeWriter: (event: ChangeEvent<HTMLInputElement>) => void;
-  onChangePassword: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleChange: (event: number) => void;
-  onChangeContents: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickSubmit: () => void;
   rating: number;
   writer: string;
   password: string;
   contents: string;
+  onChangeInputs: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (event: number) => void;
 }
 export default function CommentWriteUI(props: CommentWriteUI) {
   return (
     <E.CommentsUI>
+      <E.Rating onChange={props.handleChange} value={props.rating}></E.Rating>
+      <Input01
+        maxLength={50}
+        placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다. (50자 이하)"
+      />
+      <E.E>
+        별점
+        <Rate character={<HeartOutlined />} />
+      </E.E>
       <E.Comments>
         <E.RowWrapper>
           <E.WrapperLeft>
@@ -26,20 +36,20 @@ export default function CommentWriteUI(props: CommentWriteUI) {
               ></E.Rating>
               <E.Writer
                 type="text"
-                onChange={props.onChangeWriter}
+                onChange={props.onChangeInputs}
                 placeholder="작성자"
                 value={props.writer}
               ></E.Writer>
               <E.Password
                 type="password"
-                onChange={props.onChangePassword}
+                onChange={props.onChangeInputs}
                 placeholder="비밀번호"
                 value={props.password}
               ></E.Password>
             </E.LeftHead>
             <E.Contents
               type="text"
-              onChange={props.onChangeContents}
+              onChange={props.onChangeInputs}
               placeholder="개인정보 어쩌구"
               maxLength={100}
               value={props.contents}

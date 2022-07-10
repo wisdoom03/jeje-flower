@@ -4,7 +4,7 @@ import { Color } from "../../../../commons/styles/ColorStyles";
 const Wrapper = styled.div`
   width: 100%;
   height: 200px;
-  background-color: ${Color.BEIGE_POINT};
+  background-color: ${Color.BLACK_1};
   padding: 50px;
 `;
 

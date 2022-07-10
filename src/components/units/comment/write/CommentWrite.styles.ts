@@ -1,15 +1,17 @@
 import styled from "@emotion/styled";
-
 import { Rate } from "antd";
+import { Color } from "../../../../commons/styles/ColorStyles";
 
 export const CommentsUI = styled.div`
-  width: 100%;
+  max-width: 768px;
+  padding: 40px 0;
+  margin: 0 auto;
   /* background-color: skyblue; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* margin-top: 10px; */
+  /* margin-bottom: 20px; */
 `;
 
 export const Comments = styled.div`
@@ -38,7 +40,27 @@ export const LeftHead = styled.div`
 
 export const Rating = styled(Rate)`
   width: 150px;
+  .ant-rate {
+    color: ${Color.GREEN_POINT};
+  }
   /* background-color: springgreen; */
+`;
+
+export const E = styled.div`
+  width: 150px;
+  /* color: ${Color.GREEN_POINT} !important; */
+  .ant-rate {
+    /* .ant-rate-star {
+      color: ${Color.GREEN_POINT};
+    } */
+
+    .ant-rate-star-first .anticon,
+    .ant-rate-star-second .anticon {
+      svg {
+        fill: ${Color.GREEN_POINT};
+      }
+    }
+  }
 `;
 
 export const Writer = styled.input`

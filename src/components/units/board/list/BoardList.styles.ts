@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import { Color } from "../../../../commons/styles/ColorStyles";
-import { FontFamily, FontSize } from "../../../../commons/styles/FontStyles";
+import { FontSize } from "../../../../commons/styles/FontStyles";
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1024px;
   padding: 50px 0;
   > div:nth-of-type(1) {
     display: flex;

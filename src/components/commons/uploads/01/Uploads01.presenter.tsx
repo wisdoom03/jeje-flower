@@ -23,7 +23,6 @@ export default function Uploads01UI(props: IUploads01UIProps) {
         type="file"
         ref={props.fileRef}
         onChange={props.onChangeFile}
-        multiple
       />
     </>
   );

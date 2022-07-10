@@ -38,7 +38,8 @@ export const globalStyles = css`
   }
   ol,
   li,
-  ul {
+  ul,
+  dl {
     list-style: none;
     margin: 0;
   }
@@ -57,7 +58,8 @@ export const globalStyles = css`
   button {
     cursor: pointer;
   }
-  p {
+  p,
+  dd {
     margin: 0;
   }
 `;
