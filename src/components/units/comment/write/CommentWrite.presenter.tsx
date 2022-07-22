@@ -1,20 +1,10 @@
 import * as E from "./CommentWrite.styles";
-
-import { ChangeEvent } from "react";
 import Input01 from "../../../commons/text/input/input01";
 import { Rate } from "antd";
 import { HeartOutlined } from "@ant-design/icons";
+import { CommentWriteUIProps } from "./CommentWrite.types";
 
-interface CommentWriteUI {
-  onClickSubmit: () => void;
-  rating: number;
-  writer: string;
-  password: string;
-  contents: string;
-  onChangeInputs: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleChange: (event: number) => void;
-}
-export default function CommentWriteUI(props: CommentWriteUI) {
+export default function CommentWriteUI(props: CommentWriteUIProps) {
   return (
     <E.CommentsUI>
       <E.Rating onChange={props.handleChange} value={props.rating}></E.Rating>
