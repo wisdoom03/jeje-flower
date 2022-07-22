@@ -1,8 +1,9 @@
 import { MouseEvent, MouseEventHandler, ChangeEvent } from "react";
+import { IQuery } from "../../../../commons/types/generated/types";
 export interface ICommentListUIProps {
   // isEdit: boolean;
   isOpen: boolean;
-  data: any;
+  data?: Pick<IQuery, "fetchBoardComments">;
   onClickModalForDelete: MouseEventHandler<HTMLButtonElement>;
   onClickDelete: (event: MouseEvent<HTMLElement>) => void;
   onClickCancel: (event: MouseEvent<HTMLElement>) => void;

@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { Modal } from "antd";
-import { useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { IUseditemQuestionAnswer } from "../../../../../commons/types/generated/types";
 import * as A from "./AnswerCreate.styles";
 
 const CREATE_ANSWER = gql`
@@ -41,12 +42,22 @@ const UPDATE_ANSWER = gql`
   }
 `;
 
-export default function AnswerWriteUI(props) {
+interface IAnswerWriteUIProps {
+  questionId?: string;
+  setIsAnswer?: Dispatch<SetStateAction<boolean>>;
+  setIsAnswerEdit?: Dispatch<SetStateAction<boolean>>;
+  answersEl?: IUseditemQuestionAnswer;
+  refetch?: any;
+  isAnswer?: boolean;
+  isAnswerEdit?: boolean;
+}
+
+export default function AnswerWriteUI(props: IAnswerWriteUIProps) {
   const [createUseditemQuestionAnswer] = useMutation(CREATE_ANSWER);
   const [updateUseditemQuestionAnswer] = useMutation(UPDATE_ANSWER);
   const [contents, setContents] = useState("");
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLInputElement>) => {
     setContents(event.target.value);
   };
   const onClickAnswerSubmit = async () => {
@@ -61,12 +72,12 @@ export default function AnswerWriteUI(props) {
       });
 
       // console.log(resultCreate?.data);
-      props.setIsAnswer(false);
+      if (props.setIsAnswer) props.setIsAnswer(false);
       props.refetch();
 
       // console.log(String(props.questionId));
     } catch (error) {
-      Modal.error({ content: `${error.message}` });
+      if (error instanceof Error) Modal.error({ content: `${error.message}` });
     }
   };
 
@@ -74,7 +85,7 @@ export default function AnswerWriteUI(props) {
     try {
       const resultUpdate = await updateUseditemQuestionAnswer({
         variables: {
-          useditemQuestionAnswerId: String(props.AnswersEl?._id),
+          useditemQuestionAnswerId: String(props.answersEl?._id),
           updateUseditemQuestionAnswerInput: {
             contents: contents,
           },
@@ -82,9 +93,9 @@ export default function AnswerWriteUI(props) {
       });
 
       console.log(resultUpdate);
-      props.setIsAnswerEdit(false);
+      if (props.setIsAnswerEdit) props.setIsAnswerEdit(false);
     } catch (error) {
-      Modal.error({ content: `${error.message}` });
+      if (error instanceof Error) Modal.error({ content: `${error.message}` });
     }
   };
 
@@ -97,7 +108,7 @@ export default function AnswerWriteUI(props) {
               type="text"
               placeholder="대댓글 달아주세호 🦋"
               onChange={onChangeContents}
-              defaultValue={props.isAnswerEdit ? props.AnswersEl?.contents : ""}
+              defaultValue={props.isAnswerEdit ? props.answersEl?.contents : ""}
             />
           </A.WrapperLeft>
           <A.WrapperRight>

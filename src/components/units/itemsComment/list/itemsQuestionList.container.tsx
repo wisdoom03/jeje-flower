@@ -1,6 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroller";
+import {
+  IQuery,
+  IQueryFetchUseditemQuestionsArgs,
+} from "../../../../commons/types/generated/types";
 import ItemsQuestionListUI from "./itemsQuestionList.presenter";
 
 const FETCH_QUESTIONS = gql`
@@ -16,10 +20,13 @@ const FETCH_QUESTIONS = gql`
   }
 `;
 
-export default function ItemsQuestionListContainer() {
+export default function ItemsQuestionList() {
   const router = useRouter();
 
-  const { data, fetchMore, refetch } = useQuery(FETCH_QUESTIONS, {
+  const { data, fetchMore, refetch } = useQuery<
+    Pick<IQuery, "fetchUseditemQuestions">,
+    IQueryFetchUseditemQuestionsArgs
+  >(FETCH_QUESTIONS, {
     variables: {
       page: 1,
       useditemId: String(router.query.itemId),

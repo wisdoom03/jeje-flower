@@ -1,11 +1,17 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import * as Q from "./itemsQuestionWrite.styles";
 import { CREATE_QUESTION, UPDATE_QUESTION } from "./itemsQuestionWrite.queries";
+import { IUseditemQuestion } from "../../../../commons/types/generated/types";
 
-export default function ItemsQuestionWriteContainer(props) {
+interface IItemsQuestionWriteProps {
+  isEdit?: boolean;
+  setIsEdit?: Dispatch<SetStateAction<boolean>>;
+  el?: IUseditemQuestion;
+}
+export default function ItemsQuestionWrite(props: IItemsQuestionWriteProps) {
   const router = useRouter();
 
   const [createUseditemQuestion] = useMutation(CREATE_QUESTION);
@@ -13,7 +19,7 @@ export default function ItemsQuestionWriteContainer(props) {
 
   const [contents, setContents] = useState("");
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLInputElement>) => {
     setContents(event.target.value);
   };
 
@@ -37,7 +43,7 @@ export default function ItemsQuestionWriteContainer(props) {
       // console.log(result?.data?.createUseditemQuestion);
       setContents("");
     } catch (error) {
-      Modal.error({ content: error.message });
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
 
@@ -60,7 +66,7 @@ export default function ItemsQuestionWriteContainer(props) {
           });
         },
       });
-      props.setIsEdit(false);
+      if (props.setIsEdit) props.setIsEdit(false);
       // console.log(resultUpdate);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });

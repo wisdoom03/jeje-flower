@@ -1,6 +1,9 @@
 import * as M from "../MypageMain.styles";
 
-export default function MyPageCategory(props) {
+interface IMyPageCategoryProps {
+  onClickCharge: () => void;
+}
+export default function MyPageCategory(props: IMyPageCategoryProps) {
   return (
     <M.Category>
       <h1>마이페이지</h1>

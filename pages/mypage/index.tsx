@@ -3,12 +3,22 @@ import { Modal, Select } from "antd";
 import Head from "next/head";
 import router from "next/router";
 import { useContext, useState } from "react";
+import {
+  IQuery,
+  IQueryFetchPointTransactionsArgs,
+  // IQueryFetchPointTransactionsOfLoadingArgs,
+} from "../../src/commons/types/generated/types";
 import withAuth from "../../src/components/commons/hoc/withAuth";
 import MyPageCategory from "../../src/components/units/mypage/category/MyPageCategory.container";
 import MyPageHeader from "../../src/components/units/mypage/header/MyPageHeader.container";
 import * as M from "../../src/components/units/mypage/MypageMain.styles";
 import { GlobalContext } from "../_app";
 
+declare global {
+  interface Window {
+    IMP: any;
+  }
+}
 const CHARGE_POINT = gql`
   mutation createPointTransactionOfLoading($impUid: ID!) {
     createPointTransactionOfLoading(impUid: $impUid) {
@@ -19,20 +29,20 @@ const CHARGE_POINT = gql`
   }
 `;
 
-const FETCH_CHARGE_POINT_HISTORY = gql`
-  query fetchPointTransactionsOfLoading($search: String, $page: Int) {
-    fetchPointTransactionsOfLoading(search: $search, page: $page) {
-      _id
-      amount
-      balance
-      createdAt
-      status
-      statusDetail
-    }
-  }
-`;
+// const FETCH_CHARGE_POINT_HISTORY = gql`
+//   query fetchPointTransactionsOfLoading($search: String, $page: Int) {
+//     fetchPointTransactionsOfLoading(search: $search, page: $page) {
+//       _id
+//       amount
+//       balance
+//       createdAt
+//       status
+//       statusDetail
+//     }
+//   }
+// `;
 
-const FETCH_POINT_HISTORY = gql`
+const FETCH_POINT_TRANSACTIONS = gql`
   query fetchPointTransactions($search: String, $page: Int) {
     fetchPointTransactions(search: $search, page: $page) {
       _id
@@ -44,31 +54,38 @@ const FETCH_POINT_HISTORY = gql`
   }
 `;
 
-const FETCH_POINT_COUNT = gql`
-  query fetchPointTransactionsCountOfLoading {
-    fetchPointTransactionsCountOfLoading
-  }
-`;
+// const FETCH_POINT_COUNT = gql`
+//   query fetchPointTransactionsCountOfLoading {
+//     fetchPointTransactionsCountOfLoading
+//   }
+// `;
 
 export function mypagePage() {
   const { userInfo } = useContext(GlobalContext);
+  // console.log(userInfo);
 
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState(0);
   const [createPointTransactionOfLoading] = useMutation(CHARGE_POINT);
-  const { data } = useQuery(FETCH_CHARGE_POINT_HISTORY, {
-    variables: {
-      page: 1,
-    },
+  // const { data } = useQuery(FETCH_CHARGE_POINT_HISTORY, {
+  //   variables: {
+  //     page: 1,
+  //   },
+  // });
+
+  const { data: pointData } = useQuery<
+    Pick<IQuery, "fetchPointTransactions">,
+    IQueryFetchPointTransactionsArgs
+  >(FETCH_POINT_TRANSACTIONS, {
+    variables: { page: 1, search: "" },
   });
 
-  const { data: pointData } = useQuery(FETCH_POINT_HISTORY, {
-    variables: { page: 1 },
-  });
+  // const { data: countData } = useQuery<
+  //   Pick<IQuery, "fetchPointTransactionsCountOfLoading">,
+  //   IQueryFetchPointTransactionsOfLoadingArgs
+  // >(FETCH_POINT_COUNT);
 
-  const { data: countData } = useQuery(FETCH_POINT_COUNT);
-
-  console.log(countData);
+  // console.log(countData);
   // console.log(pointData);
   // console.log(data?.fetchPointTransactionsOfLoading);
 
@@ -112,7 +129,7 @@ export function mypagePage() {
         buyer_addr: "서울특별시 중구 신당동",
         buyer_postcode: "01181",
       },
-      async (rsp) => {
+      async (rsp: any) => {
         // callback
         if (rsp.success) {
           // 결제 성공 시 로직,
@@ -124,7 +141,7 @@ export function mypagePage() {
             router.push("/mypage");
             // console.log(result?.data?.createPointTransactionOfLoading);
           } catch (error) {
-            Modal.error({ content: error.message });
+            if (error instanceof Error) Modal.error({ content: error.message });
           }
         } else {
           // 결제 실패 시 로직,
@@ -172,7 +189,7 @@ export function mypagePage() {
       )}
 
       <M.Wrapper>
-        <MyPageHeader userInfo={userInfo} pointData={pointData} />
+        <MyPageHeader pointData={pointData} />
         <M.MyPageContent>
           <MyPageCategory onClickCharge={onClickCharge} />
           <M.RecentOrder>
@@ -191,7 +208,7 @@ export function mypagePage() {
                   <M.Titledd>처리현황</M.Titledd>
                 </M.Titledl>
               </M.TitleLi>
-              {pointData?.fetchPointTransactions.map((el) => (
+              {/* {pointData?.fetchPointTransactions.map((el) => (
                 <M.ContentsLi key={el._id}>
                   <M.ContentsLidl>
                     <M.ContentsLidd>{el.createdAt}</M.ContentsLidd>
@@ -201,7 +218,7 @@ export function mypagePage() {
                     <M.ContentsLidd>{el.statusDetail}</M.ContentsLidd>
                   </M.ContentsLidl>
                 </M.ContentsLi>
-              ))}
+              ))} */}
             </M.TitleUl>
           </M.RecentOrder>
         </M.MyPageContent>

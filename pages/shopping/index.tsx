@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IUseditem } from "../../src/commons/types/generated/types";
 
-export default function MyRecentShoppingPage() {
+export default function MyRecentShopping() {
   const [todayItems, setTodayItems] = useState([]);
 
   useEffect(() => {

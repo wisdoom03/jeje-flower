@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import * as L from "../../../src/components/units/member/login/Login.styles";
 
 const CREATE_USER = gql`
@@ -16,35 +16,31 @@ const CREATE_USER = gql`
 
 export default function LoginPage() {
   const router = useRouter();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-
   const [createUser] = useMutation(CREATE_USER);
 
-  const onChangeEmail = (event) => {
-    setEmail(event.target.value);
-  };
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+    name: "",
+  });
 
-  const onChangePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const onChangeName = (event) => {
-    setName(event.target.value);
+  const onChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputs({
+      ...inputs,
+      [event.target.id]: event.target.value,
+    });
   };
 
   const onClickRegister = async () => {
-    if (!/^\w+@\w+\.+com$/.test(email)) {
+    if (!/^\w+@\w+\.+com$/.test(inputs.email)) {
       Modal.error({ content: "이메일 형식을 지켜주세요" });
       return;
     }
-    if (password.length < 4 || password.length > 12) {
+    if (inputs.password.length < 4 || inputs.password.length > 12) {
       Modal.error({ content: "비밀번호는 최소 4자리 최대 12자리입니다" });
       return;
     }
-    if (!name || name.length > 5) {
+    if (!inputs.name || inputs.name.length > 5) {
       Modal.error({ content: "닉네임은 5자리가 최대입니다" });
       return;
     }
@@ -52,20 +48,20 @@ export default function LoginPage() {
       const result = await createUser({
         variables: {
           createUserInput: {
-            email,
-            password,
-            name,
+            email: inputs.email,
+            password: inputs.password,
+            name: inputs.name,
           },
         },
       });
-      console.log(result.data?.createUser);
+      // console.log(result.data?.createUser);
       Modal.info({
         title: "가입이 완료되었습니다",
         content: `${result.data?.createUser?.name}님 환영합니다. 로그인페이지로 이동합니다`,
       });
       router.push("/member/login");
     } catch (error) {
-      Modal.error(error.message);
+      if (error instanceof Error) Modal.error({ title: error.message });
     }
   };
 
@@ -77,25 +73,28 @@ export default function LoginPage() {
         <L.InputWrapper>
           <L.InputLabel>이메일 주소</L.InputLabel>
           <L.InputField
+            id="email"
             type="text"
             placeholder="jeje@flower.com"
-            onChange={onChangeEmail}
+            onChange={onChangeInputs}
           ></L.InputField>
         </L.InputWrapper>
         <L.InputWrapper>
           <L.InputLabel>비밀번호</L.InputLabel>
           <L.InputField
+            id="password"
             type="password"
             placeholder="비밀번호 입력"
-            onChange={onChangePassword}
+            onChange={onChangeInputs}
           ></L.InputField>
         </L.InputWrapper>
         <L.InputWrapper>
           <L.InputLabel>사용자명</L.InputLabel>
           <L.InputField
+            id="name"
             type="text"
             placeholder="닉네임 입력"
-            onChange={onChangeName}
+            onChange={onChangeInputs}
           ></L.InputField>
         </L.InputWrapper>
         <L.LoginButton onClick={onClickRegister}>가입하기</L.LoginButton>

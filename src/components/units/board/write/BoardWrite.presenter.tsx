@@ -5,11 +5,9 @@ import { IBoardWriteUIProps } from "./BoardWrite.types";
 import Uploads01 from "../../../commons/uploads/01/Uploads01.container";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
   const router = useRouter();
-
   const fetchBoard = props.data?.fetchBoard;
 
   return (

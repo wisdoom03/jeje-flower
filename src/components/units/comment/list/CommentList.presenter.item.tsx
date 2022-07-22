@@ -6,9 +6,10 @@ import { FETCH_COMMENTS, UPDATE_COMMENT } from "../write/CommentWrite.queries";
 import { useMutation } from "@apollo/client";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
+import { IBoardComment } from "../../../../commons/types/generated/types";
 
 interface ICommentListUIItemProps {
-  el: any;
+  el: IBoardComment;
   onClickModalForDelete: MouseEventHandler<HTMLButtonElement>;
 }
 

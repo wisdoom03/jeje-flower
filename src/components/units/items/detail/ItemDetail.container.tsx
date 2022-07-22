@@ -8,18 +8,25 @@ import {
   FETCH_USED_ITEM,
   DELETE_USED_ITEM,
   CREATE_POINT_PAYMENT,
-} from "./ItemaDetail.queries";
-import ItemDetailUIPage from "./ItemDetail.presenter";
+} from "./ItemDetail.queries";
+import ItemDetailUI from "./ItemDetail.presenter";
+import {
+  IQuery,
+  IQueryFetchUseditemArgs,
+} from "../../../../commons/types/generated/types";
 
 declare const window: typeof globalThis & {
   kakao: any;
 };
 
-export default function ItemDetailPage() {
+export default function ItemDetail() {
   const router = useRouter();
 
   const [deleteUseditem] = useMutation(DELETE_USED_ITEM);
-  const { data } = useQuery(FETCH_USED_ITEM, {
+  const { data } = useQuery<
+    Pick<IQuery, "fetchUseditem">,
+    IQueryFetchUseditemArgs
+  >(FETCH_USED_ITEM, {
     variables: { useditemId: String(router.query.itemId) },
   });
 
@@ -52,7 +59,7 @@ export default function ItemDetailPage() {
         // 주소로 좌표를 검색합니다
         geocoder.addressSearch(
           String(data?.fetchUseditem?.useditemAddress?.address),
-          function (result, status) {
+          function (result: any, status: any) {
             // 정상적으로 검색이 완료됐으면
             if (status === window.kakao.maps.services.Status.OK) {
               const coords = new window.kakao.maps.LatLng(
@@ -90,29 +97,29 @@ export default function ItemDetailPage() {
       router.push("/items");
       Modal.info({ content: "게시물이 삭제되었습니다" });
     } catch (error) {
-      Modal.error({ content: error.message });
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
 
-  const onClickBasket = () => {
-    // console.log(el);
+  // const onClickBasket = () => {
+  //   // console.log(el);
 
-    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+  //   const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
 
-    const temp = baskets.filter(
-      (basketEl) => basketEl._id === router.query.itemId
-    );
+  //   const temp = baskets.filter(
+  //     (basketEl) => basketEl._id === router.query.itemId
+  //   );
 
-    if (temp.length === 1) {
-      Modal.error({ content: "이미 담은 상품입니다" });
-      return;
-    }
-    const { __typename, ...newEl } = el;
+  //   if (temp.length === 1) {
+  //     Modal.error({ content: "이미 담은 상품입니다" });
+  //     return;
+  //   }
+  //   const { __typename, ...newEl } = el;
 
-    baskets.push(newEl);
+  //   baskets.push(newEl);
 
-    localStorage.setItem("basket", JSON.stringify(baskets));
-  };
+  //   localStorage.setItem("basket", JSON.stringify(baskets));
+  // };
 
   // useEffect(() => {
   //   const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
@@ -127,17 +134,17 @@ export default function ItemDetailPage() {
       Modal.info({ content: "상품 구매가 완료되었습니다" });
       console.log(result?.data?.createPointTransactionOfBuyingAndSelling);
     } catch (error) {
-      Modal.error({ content: error.message });
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
 
   // console.log(data?.fetchUseditem);
 
   return (
-    <ItemDetailUIPage
+    <ItemDetailUI
       data={data}
       onClickDelete={onClickDelete}
-      onClickBasket={onClickBasket}
+      // onClickBasket={onClickBasket}
       onClickBuying={onClickBuying}
     />
   );

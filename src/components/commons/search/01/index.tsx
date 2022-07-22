@@ -1,9 +1,14 @@
 import * as L from "./styles";
-
 import _ from "lodash";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
-export default function SearchPage(props) {
-  const onChangeSearch = (event) => {
+interface ISearchPageProps {
+  refetch?: any;
+  setKeyword: Dispatch<SetStateAction<string>>;
+}
+
+export default function SearchPage(props: ISearchPageProps) {
+  const onChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
     getDebounce(event.target.value);
   };
 

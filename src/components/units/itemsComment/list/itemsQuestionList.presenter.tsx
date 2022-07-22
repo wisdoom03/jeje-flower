@@ -1,9 +1,14 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Modal } from "antd";
 import { useState } from "react";
-import AnswerListPage from "../answer/list/AnswerList.container";
+import {
+  IQuery,
+  IQueryFetchUseditemQuestionAnswersArgs,
+  IUseditemQuestion,
+} from "../../../../commons/types/generated/types";
+import AnswerList from "../answer/list/AnswerList.container";
 import AnswerWriteUI from "../answer/write/AnswerCreate.container";
-import ItemsQuestionWriteContainer from "../write/itemsQuestionWrite.container";
+import ItemsQuestionWrite from "../write/itemsQuestionWrite.container";
 import * as Q from "./itemsQuestionList.styles";
 
 const DELETE_QUESTION = gql`
@@ -28,12 +33,20 @@ const FETCH_ANSWERS = gql`
   }
 `;
 
-export default function ItemsQuestionListUI(props) {
+interface IItemsQuestionListUIProps {
+  el: IUseditemQuestion;
+  refetch: any;
+}
+
+export default function ItemsQuestionListUI(props: IItemsQuestionListUIProps) {
   const [deleteUseditemQuestion] = useMutation(DELETE_QUESTION);
   const [isEdit, setIsEdit] = useState(false);
   const [isAnswer, setIsAnswer] = useState(false);
 
-  const { data, refetch } = useQuery(FETCH_ANSWERS, {
+  const { data, refetch } = useQuery<
+    Pick<IQuery, "fetchUseditemQuestionAnswers">,
+    IQueryFetchUseditemQuestionAnswersArgs
+  >(FETCH_ANSWERS, {
     variables: {
       page: 1,
       useditemQuestionId: String(props.el._id),
@@ -86,11 +99,7 @@ export default function ItemsQuestionListUI(props) {
             </Q.WrapperRight>
           </Q.RowWrapper>
           {data?.fetchUseditemQuestionAnswers.map((el) => (
-            <AnswerListPage
-              key={props.el._id}
-              AnswersEl={el}
-              refetch={refetch}
-            />
+            <AnswerList key={props.el._id} answersEl={el} refetch={refetch} />
           ))}
           {isAnswer ? (
             <AnswerWriteUI
@@ -105,11 +114,7 @@ export default function ItemsQuestionListUI(props) {
         </>
       )}
       {isEdit === true && (
-        <ItemsQuestionWriteContainer
-          isEdit={true}
-          setIsEdit={setIsEdit}
-          el={props.el}
-        />
+        <ItemsQuestionWrite isEdit={true} setIsEdit={setIsEdit} el={props.el} />
       )}
     </Q.Wrapper>
   );

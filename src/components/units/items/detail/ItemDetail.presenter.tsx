@@ -1,8 +1,15 @@
 import * as I from "../detail/ItemDetail.styles";
 import Slider from "react-slick";
 import Dompurify from "dompurify";
+import { IQuery } from "../../../../commons/types/generated/types";
 
-export default function ItemDetailUIPage(props) {
+interface ItemDetailUIProps {
+  data?: Pick<IQuery, "fetchUseditem">;
+  onClickDelete: () => void;
+  // onClickBasket={onClickBasket}
+  onClickBuying: () => void;
+}
+export default function ItemDetailUI(props: ItemDetailUIProps) {
   const settings = {
     dots: true,
     infinite: true,
@@ -53,7 +60,10 @@ export default function ItemDetailUIPage(props) {
             <I.Price>{props.data?.fetchUseditem.price}원</I.Price>
             <I.SalePrice>
               {" "}
-              24% {props.data?.fetchUseditem.price * 0.76}원
+              24%{" "}
+              {props.data?.fetchUseditem.price &&
+                props.data?.fetchUseditem.price * 0.76}
+              원
             </I.SalePrice>
           </I.PriceWrapper>
         </I.TitleWrapper>
@@ -69,7 +79,9 @@ export default function ItemDetailUIPage(props) {
           {props.data?.fetchUseditem.pickedCount}
         </I.PickedWrapper>
         <I.ButtonWrapper>
-          <I.ButtonABasket onClick={props.onClickBasket}>
+          <I.ButtonABasket
+          // onClick={props.onClickBasket}
+          >
             장바구니
           </I.ButtonABasket>
           <I.ButtonABuying onClick={props.onClickBuying}>

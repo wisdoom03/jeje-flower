@@ -1,14 +1,18 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { getMyDate } from "../../src/commons/libraries/utils";
 import * as I from "../../src/components/units/items/list/ItemsList.styles";
 import withAuth from "../../src/components/commons/hoc/withAuth";
 import { useRouter } from "next/router";
 import InfiniteScroll from "react-infinite-scroller";
-import { Fragment, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { Modal } from "antd";
-import { IUseditem } from "../../src/commons/types/generated/types";
+import {
+  IQuery,
+  IQueryFetchUseditemsArgs,
+  IUseditem,
+} from "../../src/commons/types/generated/types";
 
 const FETCH_USED_ITEMS = gql`
   query fetchUseditems($isSoldout: Boolean, $search: String, $page: Int) {
@@ -28,37 +32,35 @@ export function ItemsPage() {
   const [todayItems, setTodayItems] = useState([]);
 
   const router = useRouter();
-  const { data, fetchMore, refetch } = useQuery(FETCH_USED_ITEMS);
+  const { data, fetchMore, refetch } = useQuery<
+    Pick<IQuery, "fetchUseditems">,
+    IQueryFetchUseditemsArgs
+  >(FETCH_USED_ITEMS);
 
   const [keyword, setKeyword] = useState("");
   const [search, setSearch] = useState("");
 
-  const onClickItem = (el) => () => {
+  const onClickItem = (el: IUseditem) => () => {
     // console.log(event.target.id);
 
     const todayItems = JSON.parse(localStorage.getItem("todayItems") || "[]");
-
-    const temp = todayItems.filter((todayEl) => todayEl._id === el._id);
-
+    const temp = todayItems.filter(
+      (todayEl: IUseditem) => todayEl._id === el._id
+    );
     if (temp.length === 1) {
       router.push(`/items/${el._id}`);
       return;
     }
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { __typename, ...todayEl } = el;
 
     todayItems.push(todayEl);
-
     localStorage.setItem("todayItems", JSON.stringify(todayItems));
 
     router.push(`/items/${el._id}`);
   };
 
-  const onClickNew = () => {
-    router.push("/items/new");
-  };
-
-  const onChangeSearch = (event) => {
+  const onChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
   const onClickSearch = () => {
@@ -88,20 +90,22 @@ export function ItemsPage() {
     });
   };
 
-  const onClickBasket = (el) => () => {
+  const onClickBasket = (el: IUseditem) => () => {
     // console.log(el);
 
     const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
 
-    const temp = baskets.filter((basketEl) => basketEl._id === el._id);
+    const temp = baskets.filter(
+      (basketEl: IUseditem) => basketEl._id === el._id
+    );
 
     if (temp.length === 1) {
       Modal.error({ content: "이미 담은 상품입니다" });
       return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { __typename, ...newEl } = el;
-
     baskets.push(newEl);
 
     localStorage.setItem("basket", JSON.stringify(baskets));
@@ -131,7 +135,11 @@ export function ItemsPage() {
               .map((el: IUseditem) => (
                 <Fragment key={el._id}>
                   <I.RecentImage
-                    src={`https://storage.googleapis.com/${el.images[0]}`}
+                    src={
+                      el.images
+                        ? `https://storage.googleapis.com/${el.images[0]}`
+                        : ""
+                    }
                   ></I.RecentImage>
                 </Fragment>
               ))
@@ -143,7 +151,13 @@ export function ItemsPage() {
       </I.RecentItemsWrapper>
       <I.Wrapper>
         <I.ButtonWrapper>
-          <I.RegisterButton onClick={onClickNew}>등록하기</I.RegisterButton>
+          <I.RegisterButton
+            onClick={() => {
+              router.push("/items/new");
+            }}
+          >
+            등록하기
+          </I.RegisterButton>
         </I.ButtonWrapper>
         <I.SearchInput
           placeholder="검색어를 입력해주세요"
@@ -172,7 +186,11 @@ export function ItemsPage() {
                 <I.BoardImage
                   width={100}
                   height={70}
-                  src={`https://storage.googleapis.com/${el.images[0]}`}
+                  src={
+                    el.images
+                      ? `https://storage.googleapis.com/${el.images[0]}`
+                      : ""
+                  }
                 ></I.BoardImage>
                 <I.BoardName onClick={onClickItem(el)} id={el._id}>
                   {el.name
@@ -184,7 +202,7 @@ export function ItemsPage() {
                       </I.Word>
                     ))}
                 </I.BoardName>
-                <I.BoardRemarks onClick={onClickItem} id={el._id}>
+                <I.BoardRemarks onClick={onClickItem(el)} id={el._id}>
                   {el.remarks}
                 </I.BoardRemarks>
                 <I.BoardPrice>{el.price}</I.BoardPrice>
