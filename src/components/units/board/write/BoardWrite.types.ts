@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { Address } from "react-daum-postcode";
 import { IQuery } from "../../../../commons/types/generated/types";
 

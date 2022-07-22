@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { Modal } from "antd";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, ChangeEvent } from "react";
 import "react-quill/dist/quill.snow.css";
 import {
   CREATE_USED_ITEM,
@@ -17,6 +17,7 @@ import {
   IMutationCreateUseditemArgs,
   IMutationUpdateUseditemArgs,
   IMutationUploadFileArgs,
+  IQuery,
 } from "../../../../commons/types/generated/types";
 import DaumPostcode from "react-daum-postcode";
 import { v4 as uuidv4 } from "uuid";
@@ -35,7 +36,12 @@ interface FormValues {
   price?: number;
 }
 
-export default function ItemsWritePage(props) {
+interface IItemsWriteProps {
+  isEdit: boolean;
+  data?: Pick<IQuery, "fetchUseditem">;
+}
+
+export default function ItemsWrite(props: IItemsWriteProps) {
   const { register, handleSubmit, setValue, trigger, formState } = useForm({
     resolver: yupResolver(schema),
   });
@@ -54,42 +60,41 @@ export default function ItemsWritePage(props) {
   >(UPLOAD_FILE);
 
   const [fileUrls, setFileUrls] = useState(["", "", ""]);
-  const fileRef = useRef();
+  const fileRef = useRef<any>(null);
 
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
-
   const [address, setAddress] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [addressDetail, setAddressDetail] = useState("");
 
   const onClickSubmit = async (data: FormValues) => {
-    console.log(data);
-    // try {
-    //   const result = await createUseditem({
-    //     variables: {
-    //       createUseditemInput: {
-    //         name: data.name || "",
-    //         remarks: data.remarks || "",
-    //         contents: data.contents || "",
-    //         price: Number(data.price),
-    //         //  tag: data.tag,
-    //         images: fileUrls,
-    //         useditemAddress: {
-    //           zipcode: zipcode,
-    //           address: address,
-    //           addressDetail: addressDetail,
-    //         },
-    //       },
-    //     },
-    //   });
+    // console.log(data);
+    try {
+      const result = await createUseditem({
+        variables: {
+          createUseditemInput: {
+            name: data.name || "",
+            remarks: data.remarks || "",
+            contents: data.contents || "",
+            price: Number(data.price),
+            //  tag: data.tag,
+            images: fileUrls,
+            useditemAddress: {
+              zipcode: zipcode,
+              address: address,
+              addressDetail: addressDetail,
+            },
+          },
+        },
+      });
 
-    //   console.log(result?.data?.createUseditem);
-    //   router.push(`/items/${result.data?.createUseditem?._id}`);
-    // } catch (error) {
-    //   Modal.error({ content: error.message });
-    // }
+      console.log(result?.data?.createUseditem);
+      router.push(`/items/${result.data?.createUseditem?._id}`);
+    } catch (error) {
+      if (error instanceof Error) Modal.error({ content: error.message });
+    }
   };
   const onChangeFileUrls = (url: string, index: number) => {
     const newFileUrls = [...fileUrls];
@@ -97,7 +102,7 @@ export default function ItemsWritePage(props) {
     setFileUrls(newFileUrls);
   };
 
-  const onChangeFile = async (event) => {
+  const onChangeFile = async (event: any) => {
     const file = event.target.files[0];
     if (!file) return;
     try {
@@ -105,9 +110,9 @@ export default function ItemsWritePage(props) {
         variables: { file: file },
       });
       // console.log(result?.data.uploadFile.url);
-      onChangeFileUrls(result?.data?.uploadFile.url, 0); // 일단 0으로 넣어둔다
+      if (result.data) onChangeFileUrls(result?.data?.uploadFile.url, 0); // 일단 0으로 넣어둔다
     } catch (error) {
-      Modal.error({ content: error.message });
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
 
@@ -139,10 +144,10 @@ export default function ItemsWritePage(props) {
       });
       router.push(`/items/${String(router.query.itemId)}`);
     } catch (error) {
-      Modal.error({ content: error.message });
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
-  const handleChange = (value) => {
+  const handleChange = (value: string) => {
     // console.log(value);
     setValue("contents", value === "<p><br><p>" ? "" : value);
 
@@ -161,14 +166,14 @@ export default function ItemsWritePage(props) {
     setIsOpen(false);
   };
 
-  const PostcodeComplete = (data) => {
+  const PostcodeComplete = (data: any) => {
     setAddress(data.address);
     setZipcode(data.zonecode);
     // console.log(data);
     setIsOpen(false);
   };
 
-  const onChangeDetailAddress = (event) => {
+  const onChangeDetailAddress = (event: ChangeEvent<HTMLInputElement>) => {
     setAddressDetail(event?.target.value);
   };
 
@@ -206,7 +211,11 @@ export default function ItemsWritePage(props) {
               <I.Input
                 type="text"
                 {...register("price")}
-                defaultValue={props.data?.fetchUseditem.price}
+                defaultValue={
+                  props.data?.fetchUseditem.price
+                    ? props.data?.fetchUseditem.price
+                    : 0
+                }
               />
               <div>{formState.errors.price?.message}</div>
             </I.InputWrapper>
@@ -271,8 +280,13 @@ export default function ItemsWritePage(props) {
             <I.AddressNumber
               placeholder="07520"
               readOnly
+              // value={
+              //   zipcode || props.data?.fetchUseditem?.useditemAddress?.zipcode
+              // }
               value={
-                zipcode || props.data?.fetchUseditem?.useditemAddress?.zipcode
+                props.data?.fetchUseditem?.useditemAddress?.zipcode
+                  ? props.data?.fetchUseditem?.useditemAddress?.zipcode
+                  : zipcode
               }
             />
             <I.AddressSearch type="button" onClick={onClickAddressSearch}>
@@ -282,15 +296,18 @@ export default function ItemsWritePage(props) {
           <I.MainAddress
             readOnly
             value={
-              address || props.data?.fetchUseditem?.useditemAddress?.address
+              props.data?.fetchUseditem?.useditemAddress?.address
+                ? props.data?.fetchUseditem?.useditemAddress?.address
+                : address
             }
           ></I.MainAddress>
           <I.DetailAddress
             type="text"
             onChange={onChangeDetailAddress}
             defaultValue={
-              addressDetail ||
               props.data?.fetchUseditem?.useditemAddress?.addressDetail
+                ? props.data?.fetchUseditem?.useditemAddress?.addressDetail
+                : addressDetail
             }
           ></I.DetailAddress>
           <div id="map" style={{ width: 500, height: 400 }}></div>

@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
-// import { IMyButtonProps } from "./BoardWrite.types";
 import { Button } from "antd";
-import { Color } from "../../../../commons/styles/ColorStyles";
 
 export const Page = styled.div`
   width: 60%;
