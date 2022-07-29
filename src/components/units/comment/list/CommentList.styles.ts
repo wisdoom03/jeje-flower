@@ -1,31 +1,57 @@
 import styled from "@emotion/styled";
 import { Rate } from "antd";
 import { ScissorOutlined, DeleteOutlined } from "@ant-design/icons";
+import { FontFamily, FontSize } from "../../../../commons/styles/FontStyles";
+import { Color } from "../../../../commons/styles/ColorStyles";
 
 export const CommentsUI = styled.div`
   width: 100%;
-  margin-bottom: 20px;
+  max-width: 768px;
+
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 export const Comments = styled.div`
+  width: 100%;
   /* width: 50vw;
   height: 600px; */
-  overflow: auto;
-  padding-right: 8px;
+  /* overflow: auto; */
+  /* padding-right: 8px; */
   /* background-color: firebrick; */
 `;
 
-export const Wrapper = styled.div`
+export const CommentItem = styled.div`
   width: 100%;
-  margin-top: 10px;
-  border-bottom: 1px solid #bdbdbd;
+  margin-top: 30px;
+`;
+export const Wrap = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+export const WrapHeader = styled.div`
   display: flex;
-  flex-direction: column;
-  padding-bottom: 1px;
-  /* background-color: aqua; */
+  align-items: center;
+  p {
+    margin: 0 10px;
+    font-family: ${FontFamily.SEMIBOLD};
+  }
+`;
+export const WrapBody = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  > p {
+    width: calc(100% - 150px);
+  }
+  > div {
+    display: flex;
+    color: ${Color.GRAY_1};
+    font-size: 0.7rem;
+  }
 `;
 
 export const RowWrapper = styled.div`
@@ -91,8 +117,8 @@ export const ButtonWrapper = styled.div`
   /* background-color: teal; */
 `;
 
-export const Edit = styled(ScissorOutlined)`
-  margin-right: 15px;
+export const Edit = styled.div`
+  padding: 10px 0;
 `;
 
 export const Delete = styled(DeleteOutlined)``;

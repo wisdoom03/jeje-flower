@@ -89,18 +89,16 @@ export default function CommentList() {
   };
 
   return (
-    <div>
-      <CommentListUI
-        data={data}
-        onClickModalForDelete={onClickModalForDelete}
-        isOpen={isOpen}
-        // isEdit={isEdit}
-        onClickDelete={onClickDelete}
-        onClickCancel={onClickCancel}
-        onChangeCommentPassword={onChangeCommentPassword}
-        onLoadMore={onLoadMore}
-        // onClickEdit={onClickEdit}
-      />
-    </div>
+    <CommentListUI
+      data={data}
+      onClickModalForDelete={onClickModalForDelete}
+      isOpen={isOpen}
+      // isEdit={isEdit}
+      onClickDelete={onClickDelete}
+      onClickCancel={onClickCancel}
+      onChangeCommentPassword={onChangeCommentPassword}
+      onLoadMore={onLoadMore}
+      // onClickEdit={onClickEdit}
+    />
   );
 }

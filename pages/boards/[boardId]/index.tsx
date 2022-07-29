@@ -1,13 +1,28 @@
 import BoardDetail from "../../../src/components/units/board/detail/BoardDetail.container";
 import CommentList from "../../../src/components/units/comment/list/CommentList.container";
 import CommentWrite from "../../../src/components/units/comment/write/CommentWrite.container";
+import styled from "@emotion/styled";
 
 export default function BoardDetailPage() {
   return (
-    <>
+    <Wrap>
       <BoardDetail />
-      <CommentWrite />
+      <div className="write">
+        <CommentWrite isEdit={false} />
+      </div>
       <CommentList />
-    </>
+    </Wrap>
   );
 }
+
+const Wrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .write {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 768px;
+  }
+`;

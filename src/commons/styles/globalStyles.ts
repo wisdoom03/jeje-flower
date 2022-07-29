@@ -30,7 +30,7 @@ export const globalStyles = css`
     padding: 0;
     font-family: "Spoqa_R";
     word-break: break-all;
-    color: ${Color.BLACK_1};
+    /* color: ${Color.BLACK_1}; */
   }
   a {
     color: inherit;

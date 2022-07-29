@@ -10,8 +10,8 @@ export const Wrap = styled.div`
   align-items: center;
   position: relative;
   main {
-    /* display: flex;
-    flex-direction: row; */
+    width: 100%;
+    max-width: 768px;
   }
 `;
 
@@ -26,9 +26,7 @@ export const Image = styled.div`
 `;
 
 export const BoardUI = styled.div`
-  max-width: 768px;
   padding: 40px 0;
-  margin: 0 auto;
 `;
 
 export const SideBar = styled.div`

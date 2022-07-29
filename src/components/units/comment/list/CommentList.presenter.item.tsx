@@ -1,12 +1,15 @@
 import * as D from "./CommentList.styles";
-import * as E from "../edit/CommentEdit.styles";
 import { ChangeEvent, MouseEvent, MouseEventHandler, useState } from "react";
 
 import { FETCH_COMMENTS, UPDATE_COMMENT } from "../write/CommentWrite.queries";
 import { useMutation } from "@apollo/client";
-import { Modal } from "antd";
+import { Modal, Rate } from "antd";
 import { useRouter } from "next/router";
 import { IBoardComment } from "../../../../commons/types/generated/types";
+import CommentWrite from "../write/CommentWrite.container";
+import { calcTimeDiff } from "../../../../commons/libraries/utils";
+import DivisionDot from "../../../commons/text/division/divisionDot";
+import HighLight02 from "../../../commons/text/highlight/highlight02";
 
 interface ICommentListUIItemProps {
   el: IBoardComment;
@@ -15,7 +18,6 @@ interface ICommentListUIItemProps {
 
 export default function CommentListUIItem(props: ICommentListUIItemProps) {
   const router = useRouter();
-
   const [isEdit, setIsEdit] = useState(false);
 
   const [password, setPassword] = useState("");
@@ -78,70 +80,68 @@ export default function CommentListUIItem(props: ICommentListUIItemProps) {
   };
 
   return (
-    <D.Wrapper key={props.el._id}>
+    <D.CommentItem key={props.el._id}>
       {isEdit === false && (
-        <div>
-          <D.RowWrapper>
-            <D.WrapperLeft>
-              <D.LeftHead>
-                <D.Rating value={props.el.rating}></D.Rating>
-                <D.Writer>{props.el.writer}</D.Writer>
-              </D.LeftHead>
-              <D.Contents>{props.el.contents}</D.Contents>
-            </D.WrapperLeft>
-            <D.WrapperRight>
-              <D.ButtonWrapper>
-                <D.Edit id={props.el._id} onClick={onClickEdit}></D.Edit>
-                <D.Delete
-                  id={props.el._id}
-                  onClick={props.onClickModalForDelete}
-                ></D.Delete>
-              </D.ButtonWrapper>
-            </D.WrapperRight>
-          </D.RowWrapper>
-        </div>
+        <D.Wrap>
+          <D.WrapHeader>
+            <Rate value={props.el.rating} disabled={true} />
+            <p>{props.el.writer}</p>
+            <HighLight02 content={calcTimeDiff(props.el.createdAt)} />
+          </D.WrapHeader>
+          <D.WrapBody>
+            <p>{props.el.contents}</p>
+            <div>
+              <button onClick={onClickEdit}>수정</button>
+              <DivisionDot />
+              <button onClick={props.onClickModalForDelete}>삭제</button>
+            </div>
+          </D.WrapBody>
+        </D.Wrap>
       )}
       {isEdit === true && (
-        <div>
-          <E.RowWrapper>
-            <E.WrapperLeft>
-              <E.LeftHead>
-                <E.Rating
-                  defaultValue={props.el.rating}
-                  onChange={handleChange}
-                ></E.Rating>
-                <E.Writer>{props.el.writer}</E.Writer>
-                <E.Password
-                  type="password"
-                  placeholder="비밀번호를 입력해주세요."
-                  onChange={onChangePassword}
-                ></E.Password>
-              </E.LeftHead>
-              <E.Contents
-                type="text"
-                defaultValue={props.el.contents}
-                onChange={onChangeContents}
-              ></E.Contents>
-            </E.WrapperLeft>
-            <E.WrapperRight>
-              <E.ButtonWrapper>
-                <E.Edit id={props.el._id} onClick={onClickEdit}></E.Edit>
-                <E.Delete
-                  id={props.el._id}
-                  onClick={props.onClickModalForDelete}
-                ></E.Delete>
-              </E.ButtonWrapper>
-              <E.Button
-                id={props.el._id}
-                type="button"
-                onClick={onClickEditSubmit}
-              >
-                수정하기
-              </E.Button>
-            </E.WrapperRight>
-          </E.RowWrapper>
-        </div>
+        <D.Edit>
+          <CommentWrite el={props.el} isEdit={isEdit} />
+        </D.Edit>
+        // <div>
+        //   <E.RowWrapper>
+        //     <E.WrapperLeft>
+        //       <E.LeftHead>
+        //         <E.Rating
+        //           defaultValue={props.el.rating}
+        //           onChange={handleChange}
+        //         ></E.Rating>
+        //         <E.Writer>{props.el.writer}</E.Writer>
+        //         <E.Password
+        //           type="password"
+        //           placeholder="비밀번호를 입력해주세요."
+        //           onChange={onChangePassword}
+        //         ></E.Password>
+        //       </E.LeftHead>
+        //       <E.Contents
+        //         type="text"
+        //         defaultValue={props.el.contents}
+        //         onChange={onChangeContents}
+        //       ></E.Contents>
+        //     </E.WrapperLeft>
+        //     <E.WrapperRight>
+        //       <E.ButtonWrapper>
+        //         <E.Edit id={props.el._id} onClick={onClickEdit}></E.Edit>
+        //         <E.Delete
+        //           id={props.el._id}
+        //           onClick={props.onClickModalForDelete}
+        //         ></E.Delete>
+        //       </E.ButtonWrapper>
+        //       <E.Button
+        //         id={props.el._id}
+        //         type="button"
+        //         onClick={onClickEditSubmit}
+        //       >
+        //         수정하기
+        //       </E.Button>
+        //     </E.WrapperRight>
+        //   </E.RowWrapper>
+        // </div>
       )}
-    </D.Wrapper>
+    </D.CommentItem>
   );
 }

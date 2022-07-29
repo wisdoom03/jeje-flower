@@ -53,7 +53,7 @@ export default function Header() {
       <div>
         <nav>
           <Home onClick={moveToPage("/home")}>
-            <img src="/img/layout/Logo.png"></img>
+            <img src="/img/layout/Logo.png" />
           </Home>
           <Navigation onClick={moveToPage("/items")}>전체 상품</Navigation>
           <Navigation>매장 찾기</Navigation>

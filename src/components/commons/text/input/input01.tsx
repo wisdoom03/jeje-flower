@@ -1,20 +1,29 @@
 import styled from "@emotion/styled";
+import { ChangeEvent } from "react";
 import { Color } from "../../../../commons/styles/ColorStyles";
 import { FontFamily } from "../../../../commons/styles/FontStyles";
 
 interface IInput01Props {
   maxLength?: number;
   placeholder?: string;
+  type: string;
+  id?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClick?: () => void;
+  defaultValue?: string;
 }
 export default function Input01(props: IInput01Props) {
   return (
     <Input>
       <input
-        type="text"
+        type={props.type}
         maxLength={props.maxLength}
         placeholder={props.placeholder}
+        id={props.id}
+        onChange={props.onChange}
+        defaultValue={props.defaultValue}
       />
-      <button>입력</button>
+      <button onClick={props.onClick}>입력</button>
     </Input>
   );
 }

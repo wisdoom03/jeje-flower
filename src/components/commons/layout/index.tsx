@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import { ReactChild } from "react";
 import LayoutFooter from "./footer";
 import Header from "./header";
@@ -8,16 +9,19 @@ interface IProps {
 }
 
 export default function Layout(props: IProps) {
-  // const router = useRouter();
+  const router = useRouter();
 
-  // const SHOW_SLIDE = ["/home"];
-  // const isShowSlide = SHOW_SLIDE.includes(router.asPath);
+  const HIDDEN_HEADER = ["/", "/member/join", "/member/login"];
+  const HIDDEN_FOOTER = ["/", "/member/join", "/member/login"];
+
+  const isHiddenHeader = HIDDEN_HEADER.includes(router.asPath);
+  const isHiddenFooter = HIDDEN_FOOTER.includes(router.asPath);
 
   return (
     <Wrap>
-      <Header />
+      {isHiddenHeader || <Header />}
       <LayoutBody>{props.children}</LayoutBody>
-      <LayoutFooter />
+      {isHiddenFooter || <LayoutFooter />}
     </Wrap>
   );
 }

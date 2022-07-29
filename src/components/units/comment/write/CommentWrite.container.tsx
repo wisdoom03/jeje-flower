@@ -4,17 +4,22 @@ import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { Modal } from "antd";
 import CommentWriteUI from "./CommentWrite.presenter";
+import { IBoardComment } from "../../../../commons/types/generated/types";
 
-export default function CommentWrite() {
+export interface ICommentWriteProps {
+  el?: IBoardComment;
+  isEdit: boolean;
+}
+
+export default function CommentWrite(props: ICommentWriteProps) {
+  const router = useRouter();
+
   const [inputs, setInputs] = useState({
     writer: "",
     password: "",
     contents: "",
   });
   const [rating, setRating] = useState(3);
-
-  const router = useRouter();
-
   const [createBoardComment] = useMutation(CREATE_COMMENT);
 
   const onChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +75,7 @@ export default function CommentWrite() {
       contents={inputs.contents}
       onChangeInputs={onChangeInputs}
       handleChange={handleChange}
+      el={props.el}
     />
   );
 }
