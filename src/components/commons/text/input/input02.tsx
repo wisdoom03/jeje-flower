@@ -9,6 +9,7 @@ interface IInput02Props {
   id?: string;
   value?: string;
   readOnly?: boolean;
+  defaultValue?: string;
 }
 export default function Input02(props: IInput02Props) {
   return (
@@ -17,7 +18,8 @@ export default function Input02(props: IInput02Props) {
       type={props.type}
       onChange={props.onChange}
       id={props.id}
-      value={props.value}
+      // value={props.value}
+      defaultValue={props.defaultValue}
       readOnly={props.readOnly}
     />
   );

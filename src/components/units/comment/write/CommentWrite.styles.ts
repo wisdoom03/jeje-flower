@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Rate } from "antd";
+import { Color } from "../../../../commons/styles/ColorStyles";
 
 export const CommentsUI = styled.div`
   width: 100%;
@@ -9,11 +10,15 @@ export const CommentsUI = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 5px;
+    button {
+      color: ${Color.GRAY_1};
+      font-size: 0.7rem;
+    }
   }
 `;
 
 export const User = styled.div`
-  input:first-of-type {
+  input {
     margin-right: 10px;
   }
 `;

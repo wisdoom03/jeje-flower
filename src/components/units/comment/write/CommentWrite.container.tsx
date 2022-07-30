@@ -1,6 +1,16 @@
 import { useMutation } from "@apollo/client";
-import { CREATE_COMMENT, FETCH_COMMENTS } from "./CommentWrite.queries";
-import { ChangeEvent, useState } from "react";
+import {
+  CREATE_COMMENT,
+  FETCH_COMMENTS,
+  UPDATE_COMMENT,
+} from "./CommentWrite.queries";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useState,
+  MouseEvent,
+} from "react";
 import { useRouter } from "next/router";
 import { Modal } from "antd";
 import CommentWriteUI from "./CommentWrite.presenter";
@@ -9,17 +19,18 @@ import { IBoardComment } from "../../../../commons/types/generated/types";
 export interface ICommentWriteProps {
   el?: IBoardComment;
   isEdit: boolean;
+  setIsEdit?: Dispatch<SetStateAction<boolean>>;
+  onClickEditSubmit?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function CommentWrite(props: ICommentWriteProps) {
   const router = useRouter();
-
   const [inputs, setInputs] = useState({
     writer: "",
     password: "",
     contents: "",
   });
-  const [rating, setRating] = useState(3);
+  const [rating, setRating] = useState(props.el?.rating || 3);
   const [createBoardComment] = useMutation(CREATE_COMMENT);
 
   const onChangeInputs = (event: ChangeEvent<HTMLInputElement>) => {
@@ -66,9 +77,50 @@ export default function CommentWrite(props: ICommentWriteProps) {
     }
   };
 
+  const [updateBoardComment] = useMutation(UPDATE_COMMENT);
+  // 최종 수정버튼
+  const onClickEditSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+    if (!inputs.contents && !rating) {
+      Modal.warning({ title: "수정된 내용이 없습니다" });
+      return;
+    }
+    if (!inputs.password) {
+      Modal.warning({ title: "비밀번호를 입력해주세요" });
+      return;
+    }
+
+    const myUpdateCommentInput = {
+      contents: props.el?.contents,
+      rating: props.el?.rating,
+    };
+    if (inputs.contents) myUpdateCommentInput.contents = inputs.contents;
+    if (rating) myUpdateCommentInput.rating = rating;
+    try {
+      await updateBoardComment({
+        variables: {
+          password: inputs.password,
+          boardCommentId: event.currentTarget.id,
+          updateBoardCommentInput: myUpdateCommentInput,
+        },
+        refetchQueries: [
+          {
+            query: FETCH_COMMENTS,
+            variables: { boardId: String(router.query.boardId), page: 1 },
+          },
+        ],
+      });
+
+      Modal.info({ title: "댓글이 수정되었습니다 🌷" });
+      if (props.setIsEdit) props.setIsEdit(false);
+    } catch (error) {
+      Modal.warning({ title: "죄송합니다. 잠시 후에 이용 부탁드립니다" });
+    }
+  };
+
   return (
     <CommentWriteUI
       onClickSubmit={onClickSubmit}
+      onClickEditSubmit={onClickEditSubmit}
       rating={rating}
       writer={inputs.writer}
       password={inputs.password}
@@ -76,6 +128,8 @@ export default function CommentWrite(props: ICommentWriteProps) {
       onChangeInputs={onChangeInputs}
       handleChange={handleChange}
       el={props.el}
+      isEdit={props.isEdit}
+      setIsEdit={props.setIsEdit}
     />
   );
 }

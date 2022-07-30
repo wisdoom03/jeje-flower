@@ -13,7 +13,6 @@ import UpArrowIcon from "../../../../../public/svg/upArrow-icon.svg";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps) {
   const router = useRouter();
-  console.log(props.data?.fetchBoard);
   return (
     <S.Wrap>
       <S.Image>

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { ChangeEvent } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 import { Color } from "../../../../commons/styles/ColorStyles";
 import { FontFamily } from "../../../../commons/styles/FontStyles";
 
@@ -9,8 +9,9 @@ interface IInput01Props {
   type: string;
   id?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   defaultValue?: string;
+  commentId?: string;
 }
 export default function Input01(props: IInput01Props) {
   return (
@@ -23,7 +24,9 @@ export default function Input01(props: IInput01Props) {
         onChange={props.onChange}
         defaultValue={props.defaultValue}
       />
-      <button onClick={props.onClick}>입력</button>
+      <button onClick={props.onClick} id={props.commentId}>
+        입력
+      </button>
     </Input>
   );
 }

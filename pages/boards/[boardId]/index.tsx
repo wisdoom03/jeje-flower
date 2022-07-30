@@ -2,6 +2,7 @@ import BoardDetail from "../../../src/components/units/board/detail/BoardDetail.
 import CommentList from "../../../src/components/units/comment/list/CommentList.container";
 import CommentWrite from "../../../src/components/units/comment/write/CommentWrite.container";
 import styled from "@emotion/styled";
+import { useState } from "react";
 
 export default function BoardDetailPage() {
   return (

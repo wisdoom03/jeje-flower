@@ -51,15 +51,12 @@ export default function CommentList() {
     });
   };
 
-  //댓글 삭제하러가기 버튼
   function onClickModalForDelete(event: MouseEvent<HTMLElement>) {
     setIsOpen((prev) => !prev);
     setCommentId(event.currentTarget.id);
   }
 
-  // 진짜 댓글 삭제 버튼
-  const onClickDelete = async (event: MouseEvent<HTMLElement>) => {
-    setCommentId(event.currentTarget.id);
+  const onClickDelete = async () => {
     try {
       await deleteComment({
         variables: {
@@ -85,7 +82,6 @@ export default function CommentList() {
 
   const onChangeCommentPassword = (event: ChangeEvent<HTMLInputElement>) => {
     setCommentPassword(event.target.value);
-    // console.log(event.target.value);
   };
 
   return (
@@ -93,12 +89,11 @@ export default function CommentList() {
       data={data}
       onClickModalForDelete={onClickModalForDelete}
       isOpen={isOpen}
-      // isEdit={isEdit}
+      commentId={commentId}
       onClickDelete={onClickDelete}
       onClickCancel={onClickCancel}
       onChangeCommentPassword={onChangeCommentPassword}
       onLoadMore={onLoadMore}
-      // onClickEdit={onClickEdit}
     />
   );
 }
