@@ -62,3 +62,8 @@ export const getYYYYMMDD = (dateTime: string | Date) => {
     }.${date.getDate()}`;
   return dateString;
 };
+
+// scrollToTop
+export const moveToTop = () => {
+  window.scrollTo(0, 0);
+};

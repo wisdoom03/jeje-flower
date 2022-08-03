@@ -31,6 +31,7 @@ export default function CommentWriteUI(props: CommentWriteUIProps) {
             type="password"
             id="password"
             onChange={props.onChangeInputs}
+            autoComplete="on"
           />
         </E.User>
         {props.isEdit && <button onClick={toggleEdit}>취소</button>}

@@ -6,13 +6,12 @@ import { useRouter } from "next/router";
 import Line01 from "../../../commons/line/line01";
 import { Color } from "../../../../commons/styles/ColorStyles";
 import HighLight01 from "../../../commons/text/highlight/highlight01";
-import Button01 from "../../../commons/button/button01/Button01";
-import HeartIcon from "../../../../../public/svg/heart-icon.svg";
-import HamburgerIcon from "../../../../../public/svg/hamburger-icon.svg";
-import UpArrowIcon from "../../../../../public/svg/upArrow-icon.svg";
+import SideBar01 from "../../../commons/layout/sidebar/Sidebar01";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps) {
   const router = useRouter();
+
+  console.log(props.data?.fetchBoard.user?.picture);
   return (
     <S.Wrap>
       <S.Image>
@@ -25,11 +24,12 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
       <main>
         <S.BoardUI>
           <S.BoardHead>
-            <p>온라인 집들이</p>
+            <p>자유게시판</p>
             <h1>{props.data?.fetchBoard?.title}</h1>
             <S.Profile>
               <div className="user">
                 <img src="/img/profile.svg" alt="Profile" />
+
                 <p>{props.data?.fetchBoard?.writer}</p>
                 <HighLight01
                   content={calcTimeDiff(props.data?.fetchBoard?.createdAt)}
@@ -83,25 +83,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
             </div>
           </S.Count>
         </S.BoardUI>
-        <S.SideBar>
-          <div className="sidebar">
-            <div className="buttons">
-              <Button01 onClick={props.onClickLike}>
-                <HeartIcon />
-              </Button01>
-              <Button01>
-                <UpArrowIcon />
-              </Button01>
-              <Button01
-                onClick={() => {
-                  router.push(`/boards`);
-                }}
-              >
-                <HamburgerIcon />
-              </Button01>
-            </div>
-          </div>
-        </S.SideBar>
+        <SideBar01 page="/boards" />
         <Line01 color={Color.GRAY_3} height={1.5} />
       </main>
     </S.Wrap>

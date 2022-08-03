@@ -5,9 +5,9 @@ import * as P from "./pagination";
 interface IPaginationProps {
   refetch?: any;
   lastPage: number;
-  keyword: string;
+  keyword?: string;
 }
-export default function Pagination(props: IPaginationProps) {
+export default function Pagination01(props: IPaginationProps) {
   const [startPage, setStartPage] = useState(1);
   const [nowPage, setNowPage] = useState(1);
 

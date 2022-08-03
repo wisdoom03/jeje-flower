@@ -7,9 +7,9 @@ import {
 } from "../../../../commons/types/generated/types";
 import { useQuery } from "@apollo/client";
 import _ from "lodash";
-import Pagination from "../../../commons/pagination";
 import BoardsListUI from "./BoardList.presenter";
 import { FETCH_BOARDS, FETCH_BOARDS_COUNT } from "./BoardList.queries";
+import Pagination01 from "../../../commons/pagination/Pagination01";
 
 export default function BoardsList() {
   const [keyword, setKeyword] = useState("");
@@ -46,7 +46,7 @@ export default function BoardsList() {
         />
       </div>
       <BoardsListUI data={data} keyword={keyword} />
-      <Pagination keyword={keyword} refetch={refetch} lastPage={lastPage} />
+      <Pagination01 keyword={keyword} refetch={refetch} lastPage={lastPage} />
     </L.Wrapper>
   );
 }

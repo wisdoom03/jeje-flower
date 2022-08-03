@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Rate } from "antd";
 import { Color } from "../../../../commons/styles/ColorStyles";
 
-export const CommentsUI = styled.div`
+export const CommentsUI = styled.form`
   width: 100%;
   max-width: 768px;
   /* padding: 40px 0; */

@@ -10,6 +10,9 @@ import {
 } from "../../../../commons/types/generated/types";
 import CommentListUI from "./CommentList.presenter";
 import { Modal } from "antd";
+import ContainedButton01 from "../../../commons/button/contained/contained01/ContainedButton01";
+import styled from "@emotion/styled";
+import OutlinedButton01 from "../../../commons/button/outlined/outlined01/OutlinedButton01";
 
 export default function CommentList() {
   const router = useRouter();
@@ -85,15 +88,24 @@ export default function CommentList() {
   };
 
   return (
-    <CommentListUI
-      data={data}
-      onClickModalForDelete={onClickModalForDelete}
-      isOpen={isOpen}
-      commentId={commentId}
-      onClickDelete={onClickDelete}
-      onClickCancel={onClickCancel}
-      onChangeCommentPassword={onChangeCommentPassword}
-      onLoadMore={onLoadMore}
-    />
+    <>
+      <CommentListUI
+        data={data}
+        onClickModalForDelete={onClickModalForDelete}
+        isOpen={isOpen}
+        commentId={commentId}
+        onClickDelete={onClickDelete}
+        onClickCancel={onClickCancel}
+        onChangeCommentPassword={onChangeCommentPassword}
+      />
+      <ButtonWrap>
+        <OutlinedButton01 title="더보기" onClick={onLoadMore} square={false} />
+      </ButtonWrap>
+    </>
   );
 }
+
+const ButtonWrap = styled.div`
+  width: 120px;
+  margin-top: 40px;
+`;

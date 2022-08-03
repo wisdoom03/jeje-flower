@@ -7,14 +7,6 @@ export const Dropdown = styled.span`
 
   > button {
     width: 100px;
-    height: 40px;
-    border-radius: 4px;
-    background-color: ${Color.ORANGE_POINT};
-    color: ${Color.WHITE_1};
-    transition: background-color 0.2s ease 0s;
-    :hover {
-      background-color: ${Color.BEIGE_POINT};
-    }
   }
   dl {
     position: absolute;

@@ -3,61 +3,6 @@ import styled from "@emotion/styled";
 export const Wrapper = styled.div`
   width: 80%;
 `;
-export const MyPageHeader = styled.div`
-  padding: 56px 0 40px;
-  border-bottom: 1px solid #e8e8e8;
-`;
-
-export const HeaderTitle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 173px 0 20px;
-`;
-
-export const HeaderBoard = styled.div`
-  display: flex;
-  user-select: none;
-  align-items: center;
-`;
-
-export const BoardSummary = styled.div`
-  display: flex;
-  flex: 1 1;
-  align-items: center;
-  border-radius: 8px;
-  border: 1px solid #e8e8e8;
-  padding: 23px 0 16px;
-  /* margin-right: 13px; */
-`;
-
-export const SummaryItem = styled.div`
-  :not(:last-child) {
-    border-right: 1px solid #e8e8e8;
-  }
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 20%;
-`;
-
-export const SummaryItemLabel = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  line-height: 21.6px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 5px;
-  cursor: pointer;
-`;
-
-export const SummaryItemBody = styled.div`
-  font-size: 12px;
-  line-height: 14.4px;
-  font-weight: 400;
-  color: #bbb;
-`;
 
 export const MyPageContent = styled.section`
   position: relative;

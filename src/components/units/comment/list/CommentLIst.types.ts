@@ -12,7 +12,7 @@ export interface ICommentListUIProps {
   onClickDelete: (event: MouseEvent<HTMLElement>) => void;
   onClickCancel: (event: MouseEvent<HTMLElement>) => void;
   onChangeCommentPassword: (event: ChangeEvent<HTMLInputElement>) => void;
-  onLoadMore: () => void;
+  // onLoadMore: () => void;
 }
 
 export interface ICommentListUIItemProps {

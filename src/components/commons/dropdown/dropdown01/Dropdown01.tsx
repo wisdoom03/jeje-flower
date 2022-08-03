@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import ContainedButton01 from "../../button/contained/contained01/ContainedButton01";
 import * as S from "./Dropdown01.styles";
 
 interface IDropdown01Props {
@@ -26,7 +27,11 @@ export default function Dropdown01(props: IDropdown01Props) {
   return (
     <>
       <S.Dropdown>
-        <button onClick={onClickCategory}>글쓰기 🖋</button>
+        <ContainedButton01
+          onClick={onClickCategory}
+          square={true}
+          title="글쓰기 🖋"
+        />
         {isActive && (
           <>
             <dl>

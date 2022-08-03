@@ -29,28 +29,6 @@ export const BoardUI = styled.div`
   padding: 40px 0;
 `;
 
-export const SideBar = styled.div`
-  position: absolute;
-  top: 400px;
-  bottom: 0;
-  right: 0;
-  width: calc(50% - 384px);
-  .sidebar {
-    position: sticky;
-    top: 130px;
-    transition: top 0.1s ease 0s;
-    width: 55px;
-    margin: 0 auto;
-    .buttons {
-      padding: 70px 0;
-      height: 500px;
-      display: flex;
-      flex-direction: column;
-      grid-gap: 15px;
-    }
-  }
-`;
-
 export const BoardHead = styled.header`
   > p {
     font-family: ${FontFamily.LIGHT};

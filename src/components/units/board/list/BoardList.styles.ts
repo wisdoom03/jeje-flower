@@ -73,12 +73,17 @@ export const BoardNumber = styled.div`
 `;
 export const BoardWriter = styled.div`
   width: 15%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 export const BoardTitle = styled.div`
   width: 50%;
   text-align: start;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   cursor: pointer;
   :hover {
     color: #dfdfdf;

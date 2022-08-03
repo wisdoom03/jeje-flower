@@ -10,6 +10,7 @@ interface IInput02Props {
   value?: string;
   readOnly?: boolean;
   defaultValue?: string;
+  autoComplete?: string;
 }
 export default function Input02(props: IInput02Props) {
   return (
@@ -21,6 +22,7 @@ export default function Input02(props: IInput02Props) {
       // value={props.value}
       defaultValue={props.defaultValue}
       readOnly={props.readOnly}
+      autoComplete={props.autoComplete}
     />
   );
 }
