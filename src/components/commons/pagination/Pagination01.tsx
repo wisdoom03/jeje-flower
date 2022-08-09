@@ -1,6 +1,8 @@
 import { useState } from "react";
 import React, { MouseEvent } from "react";
-import * as P from "./pagination";
+// import * as P from "./pagination";
+import styled from "@emotion/styled";
+import { Color } from "../../../commons/styles/ColorStyles";
 
 interface IPaginationProps {
   refetch?: any;
@@ -53,8 +55,8 @@ export default function Pagination01(props: IPaginationProps) {
   };
 
   return (
-    <P.Pagination>
-      <P.Wrapper>
+    <Pagination>
+      <Wrapper>
         <button onClick={onClickStartPage}>&#xE000;&#xE000;</button>
         <button onClick={onClickPrevPage}>&#xE000;</button>
         {new Array(10)
@@ -62,19 +64,42 @@ export default function Pagination01(props: IPaginationProps) {
           .map(
             (_, index) =>
               index + startPage <= props.lastPage && (
-                <P.PageNumber
+                <PageNumber
                   key={index + startPage}
                   onClick={onClickPage}
                   id={String(index + startPage)}
                   className={
                     nowPage === Number(index + startPage) ? "click" : ""
                   }
-                >{` ${index + startPage} `}</P.PageNumber>
+                >{` ${index + startPage} `}</PageNumber>
               )
           )}
         <button onClick={onClickNextPage}>&#xE001;</button>
         <button onClick={onClickLastPage}>&#xE001;&#xE001;</button>
-      </P.Wrapper>
-    </P.Pagination>
+      </Wrapper>
+    </Pagination>
   );
 }
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  grid-gap: 20px;
+`;
+
+const PageNumber = styled.span`
+  text-align: center;
+  cursor: pointer;
+  &.click {
+    color: ${Color.ORANGE_POINT};
+  }
+  :hover {
+    color: ${Color.ORANGE_SUB};
+  }
+`;

@@ -30,7 +30,7 @@ export default function Dropdown01(props: IDropdown01Props) {
         <ContainedButton01
           onClick={onClickCategory}
           square={true}
-          title="글쓰기 🖋"
+          title="내 공간 🖋"
         />
         {isActive && (
           <>

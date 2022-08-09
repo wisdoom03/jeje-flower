@@ -32,18 +32,18 @@ export default function Header() {
 
   const LIST = [
     {
-      title: "사진 올리기",
+      title: "게시물 올리기",
       content: "우리집의 공간과 나의 일상을 기록해보세요",
       link: "/boards/new",
     },
     {
       title: "상품 등록하기",
-      content: "집에 관한 이야기를 글로 작성해보세요",
+      content: "상품을 올리고 거래를 통해 포인트도 받아보세요",
       link: "/items/new",
     },
     {
-      title: "상품 리뷰 쓰기",
-      content: "상품 리뷰를 작성하고 포인트도 받아보세요",
+      title: "마이페이지",
+      content: "개인정보를 수정하고 게시물 관리를 해보세요",
       link: "/mypage",
     },
   ];
@@ -65,7 +65,7 @@ export default function Header() {
             <>
               <span>{userInfo.name}님 안녕하세요</span>
               <span onClick={onClickLogout}>로그아웃</span>
-              <span onClick={moveToPage("/mypage")}>마이페이지</span>
+              {/* <span onClick={moveToPage("/mypage")}>마이페이지</span> */}
               <Dropdown01 LIST={LIST} />
             </>
           )}

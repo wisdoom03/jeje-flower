@@ -1,7 +1,57 @@
 import styled from "@emotion/styled";
+import { Color } from "../../../commons/styles/ColorStyles";
+import { FontFamily, FontSize } from "../../../commons/styles/FontStyles";
 
 export const Wrapper = styled.div`
-  width: 80%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1024px;
+  margin-bottom: 100px;
+`;
+
+export const MyPageBody = styled.main`
+  padding: 50px 0;
+  display: flex;
+  width: 100%;
+  grid-gap: 50px;
+`;
+
+export const Content = styled.section`
+  width: 100%;
+  h1 {
+    font-family: ${FontFamily.SEMIBOLD};
+    font-size: ${FontSize.LARGE_C};
+  }
+  ul {
+    display: flex;
+    position: relative;
+    width: 100%;
+    ::after {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      background-color: ${Color.GRAY_3};
+      content: "";
+      height: 1px;
+      bottom: 1px;
+    }
+    /* border-bottom: 1px solid ${Color.GRAY_3}; */
+    li {
+      margin-right: 50px;
+      position: relative;
+    }
+    li.nowTab::after {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      background-color: ${Color.GREEN_MAIN};
+      content: "";
+      height: 2px;
+      bottom: 1px;
+      z-index: 2;
+    }
+  }
 `;
 
 export const MyPageContent = styled.section`
@@ -12,6 +62,7 @@ export const MyPageContent = styled.section`
   min-height: 480px;
   height: auto;
   margin-bottom: 115px;
+  /* background-color: aqua; */
 `;
 
 export const Category = styled.div`

@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { GlobalContext } from "../../../../../pages/_app";
 import { IQuery } from "../../../../commons/types/generated/types";
 import styled from "@emotion/styled";
+import { FontFamily, FontSize } from "../../../../commons/styles/FontStyles";
+import { Color } from "../../../../commons/styles/ColorStyles";
 
 interface IMyPageHeaderProps {
   pointData?: Pick<IQuery, "fetchPointTransactions">;
@@ -12,13 +14,16 @@ export default function MyPageHeader(props: IMyPageHeaderProps) {
 
   return (
     <Wrap>
-      <HeaderTitle>{userInfo?.name}님, 안녕하세요!</HeaderTitle>
+      <HeaderTitle>
+        <span>{userInfo?.name}</span>님, 안녕하세요!
+        <span>&#xE001;</span>
+      </HeaderTitle>
       <HeaderBoard>
         <BoardSummary>
           <SummaryItem>
             <SummaryItemLabel>
               {props.pointData
-                ? props.pointData.fetchPointTransactions[0].balance
+                ? props.pointData?.fetchPointTransactions[0].balance
                 : 0}
               원
             </SummaryItemLabel>
@@ -47,15 +52,25 @@ export default function MyPageHeader(props: IMyPageHeaderProps) {
 }
 
 export const Wrap = styled.div`
-  padding: 56px 0 40px;
+  padding: 50px 0;
   border-bottom: 1px solid #e8e8e8;
 `;
 
 export const HeaderTitle = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 173px 0 20px;
+  margin-bottom: 10px;
+  font-size: ${FontSize.LARGE_C};
+  color: ${Color.BLACK_1};
+  font-family: ${FontFamily.SEMILIGHT};
+  span:nth-of-type(1) {
+    font-family: ${FontFamily.SEMIBOLD};
+  }
+  span:nth-of-type(2) {
+    margin-left: 10px;
+    font-size: ${FontSize.MEDIUM_C};
+    color: ${Color.GRAY_1};
+  }
 `;
 
 export const HeaderBoard = styled.div`

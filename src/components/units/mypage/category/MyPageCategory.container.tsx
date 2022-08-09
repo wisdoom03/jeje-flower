@@ -6,7 +6,7 @@ interface IMyPageCategoryProps {
 export default function MyPageCategory(props: IMyPageCategoryProps) {
   return (
     <M.Category>
-      <h1>마이페이지</h1>
+      {/* <h1>마이페이지</h1> */}
       <M.CategoryUl>
         <M.CategoryLi>
           <M.CategoryLiA
