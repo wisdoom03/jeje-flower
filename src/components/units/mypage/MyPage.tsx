@@ -2,8 +2,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import styled from "@emotion/styled";
 import { Modal, Select } from "antd";
 import Head from "next/head";
-import router from "next/router";
-import { useContext, useState, MouseEvent } from "react";
+import router, { useRouter } from "next/router";
+import { useContext, useState, MouseEvent, useEffect, Fragment } from "react";
 import MyPagePage from "../../../../pages/mypage";
 import { GlobalContext } from "../../../../pages/_app";
 import { Color } from "../../../commons/styles/ColorStyles";
@@ -14,36 +14,32 @@ import {
 } from "../../../commons/types/generated/types";
 import Line01 from "../../commons/line/line01";
 import MyPageHeader from "./header/MyPageHeader.container";
+import { MENU } from "./MyPage.data";
+import { CHARGE_POINT, FETCH_POINT_TRANSACTIONS } from "./MyPage.queries";
 import SideMenu from "./sideMenu/SideMenu";
+import { v4 as uuidv4 } from "uuid";
 
 declare global {
   interface Window {
     IMP: any;
   }
 }
-const CHARGE_POINT = gql`
-  mutation createPointTransactionOfLoading($impUid: ID!) {
-    createPointTransactionOfLoading(impUid: $impUid) {
-      _id
-      impUid
-      amount
-    }
-  }
-`;
 
-const FETCH_POINT_TRANSACTIONS = gql`
-  query fetchPointTransactions($search: String, $page: Int) {
-    fetchPointTransactions(search: $search, page: $page) {
-      _id
-      amount
-      balance
-      statusDetail
-      createdAt
-    }
-  }
-`;
+export interface IMyPageProps {
+  data: {
+    title: string;
+    page: string;
+    list: {
+      name: string;
+      content: JSX.Element;
+      index: number;
+    }[];
+    index: number;
+  };
+}
 
-export function MyPage() {
+export function MyPage(props: IMyPageProps) {
+  const router = useRouter();
   const { userInfo } = useContext(GlobalContext);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -91,8 +87,8 @@ export function MyPage() {
         pay_method: "card",
         name: "Jeje Flower",
         amount: amount,
-        buyer_email: userInfo?.email, //"potao@p.com"
-        buyer_name: userInfo?.name, //"지혜"
+        buyer_email: userInfo?.email,
+        buyer_name: userInfo?.name,
         buyer_tel: "010-4242-4242",
         buyer_addr: "서울특별시 중구 신당동",
         buyer_postcode: "01181",
@@ -120,10 +116,19 @@ export function MyPage() {
       }
     );
   };
-  const [nowTab, setNowTab] = useState("");
-  const onClickTab = (event: MouseEvent<HTMLLIElement>) => {
-    setNowTab(event.currentTarget.id);
+  const [nowTab, setNowTab] = useState({
+    title: props.data.list[0].name,
+    content: props.data.list[0].content,
+    index: props.data.list[0].index,
+  });
+  const onClickTab = (index: number) => (event: MouseEvent<HTMLLIElement>) => {
+    setNowTab({
+      title: event.currentTarget.id,
+      content: props.data.list[index].content,
+      index: props.data.list[index].index,
+    });
   };
+
   return (
     <>
       <Head>
@@ -163,67 +168,27 @@ export function MyPage() {
         <MyPageHeader pointData={pointData} />
         <Line01 color={Color.GRAY_3} />
         <MyPageBody>
-          {/* <MyPageCategory onClickCharge={onClickCharge} /> */}
-          <SideMenu />
+          <SideMenu
+            MENU={MENU}
+            //  setNowMenu={setNowMenu}
+          />
           <Content>
-            <h1>현재 메뉴</h1>
+            <h1>{props.data.title}</h1>
             <ul>
-              <li
-                onClick={onClickTab}
-                id="탭 1"
-                className={nowTab === "탭 1" ? "nowTab" : ""}
-              >
-                탭 1
-              </li>
-              <li
-                onClick={onClickTab}
-                id="탭 2"
-                className={nowTab === "탭 2" ? "nowTab" : ""}
-              >
-                탭 2
-              </li>
-              <li
-                onClick={onClickTab}
-                id="탭 3"
-                className={nowTab === "탭 3" ? "nowTab" : ""}
-              >
-                탭 3
-              </li>
+              {props.data.list.map((el, index) => (
+                <li
+                  key={uuidv4()}
+                  onClick={onClickTab(index)}
+                  id={String(index)}
+                  className={nowTab.index === index ? "nowTab" : ""}
+                >
+                  {el.name}
+                </li>
+              ))}
             </ul>
+            <div>{nowTab.content}</div>
           </Content>
         </MyPageBody>
-        {/* <M.MyPageContent>
-          <MyPageCategory onClickCharge={onClickCharge} />
-          <M.RecentOrder>
-            <M.Headerdl>
-              <M.Headerdt>적립금 사용내역</M.Headerdt>
-              <M.Headerdd>최근 3개월 간의 사용 내역이 노출됩니다.</M.Headerdd>
-              <M.HeaderA href="">더보기</M.HeaderA>
-            </M.Headerdl>
-            <M.TitleUl>
-              <M.TitleLi>
-                <M.Titledl>
-                  <M.Titledd>주문일</M.Titledd>
-                  <M.Titledd>상품명</M.Titledd>
-                  <M.Titledd>주문번호</M.Titledd>
-                  <M.Titledd>충전금액</M.Titledd>
-                  <M.Titledd>처리현황</M.Titledd>
-                </M.Titledl>
-              </M.TitleLi>
-              {pointData?.fetchPointTransactions.map((el) => (
-                <M.ContentsLi key={el._id}>
-                  <M.ContentsLidl>
-                    <M.ContentsLidd>{el.createdAt}</M.ContentsLidd>
-                    <M.ContentsLidd>첫 로그인</M.ContentsLidd>
-                    <M.ContentsLidd>{el._id}</M.ContentsLidd>
-                    <M.ContentsLidd>{el.amount}P</M.ContentsLidd>
-                    <M.ContentsLidd>{el.statusDetail}</M.ContentsLidd>
-                  </M.ContentsLidl>
-                </M.ContentsLi>
-              ))}
-            </M.TitleUl>
-          </M.RecentOrder>
-        </M.MyPageContent> */}
       </Wrapper>
     </>
   );

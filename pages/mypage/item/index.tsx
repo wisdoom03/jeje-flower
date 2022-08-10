@@ -1,3 +1,6 @@
+import { MyPage } from "../../../src/components/units/mypage/MyPage";
+import { MENU } from "../../../src/components/units/mypage/MyPage.data";
+
 export default function MyItemPage() {
-  return <h1>안녕하세요</h1>;
+  return <MyPage data={MENU[0]} />;
 }

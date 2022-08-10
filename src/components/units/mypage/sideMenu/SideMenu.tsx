@@ -1,42 +1,47 @@
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import { Color } from "../../../../commons/styles/ColorStyles";
 import { FontFamily } from "../../../../commons/styles/FontStyles";
-export default function SideMenu() {
-  const MENU = [
-    {
-      title: "🛒 상품 내역",
-      page: "item",
-      list: ["찜한 상품", "구매한 상품", "올린 상품"],
-      content: <h1>상품 내용</h1>,
-    },
-    {
-      title: "   💳 적립금",
-      page: "point",
-      list: ["적립금 내역", "적립금 충전"],
-      content: <h1>적립금 내용</h1>,
-    },
-    {
-      title: "🖋 활동 내역",
-      page: "board",
-      list: ["올린 게시물"],
-      content: <h1>게시물 내용</h1>,
-    },
-    {
-      title: "🛠 내 정보관리",
-      page: "edit",
-      list: ["정보 수정", "주소지 변경"],
-      content: <h1>게시물 내용</h1>,
-    },
-  ];
 
+interface ISideMenuProps {
+  MENU: {
+    title: string;
+    page: string;
+    list: {
+      name: string;
+      content: JSX.Element;
+    }[];
+    index: number;
+  }[];
+}
+
+export interface MENU_ITEM {
+  title: string;
+  page: string;
+  list: {
+    name: string;
+    content: JSX.Element;
+  }[];
+  index: number;
+}
+
+export default function SideMenu(props: ISideMenuProps) {
+  const router = useRouter();
+
+  const onClickMenu = (el: MENU_ITEM) => () => {
+    router.push(`/mypage/${el.page}`);
+  };
   return (
     <Wrap>
-      {MENU.map((el) => (
+      {props.MENU.map((el) => (
         <div key={el.title}>
           <ul>
-            {el.title}제목
+            <span onClick={onClickMenu(el)}> {el.title}</span>
+
             {el.list.map((list) => (
-              <li key={list}>{list} 리스트</li>
+              <li key={list.name} onClick={onClickMenu(el)}>
+                {list.name}
+              </li>
             ))}
           </ul>
         </div>
@@ -57,11 +62,13 @@ const Wrap = styled.div`
   }
   ul {
     font-family: ${FontFamily.SEMIBOLD};
+    span {
+      cursor: pointer;
+    }
   }
   li {
     text-indent: 18px;
     font-family: ${FontFamily.SEMILIGHT};
-    cursor: pointer;
     margin-top: 12px;
   }
 `;
